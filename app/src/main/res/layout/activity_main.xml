@@ -30,6 +30,11 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomAppbar"
             android:layout_width="match_parent"
@@ -65,8 +70,6 @@
         android:id="@+id/navigationView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/drawer_menu_header"
-        app:menu="@menu/drawer_menu_top" />
+        android:layout_gravity="start" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
