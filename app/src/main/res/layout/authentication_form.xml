@@ -19,28 +19,6 @@
 
     </ViewFlipper>
 
-    <ViewStub
-        android:id="@+id/viewStubReg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout="@layout/login_form"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ViewStub
-        android:id="@+id/viewStubLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout="@layout/register_form"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
