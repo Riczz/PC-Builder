@@ -19,4 +19,62 @@
     <string name="confirm_password">Confirm Password:</string>
     <string name="login">Login</string>
     <string name="already_registered">Already registered?</string>
+    <string name="cpu_manufacturer">CPU Manufacturer</string>
+
+    <array name="case_images">
+        <item>@drawable/h500p</item>
+        <item>@drawable/cm_mb520</item>
+        <item>@drawable/helios_gx601</item>
+        <item>@drawable/pure_base_500dx</item>
+        <item>@drawable/razer_tomahawk_mini_itx</item>
+    </array>
+
+    <array name="cpu_images">
+        <item>@drawable/intel_core_i5_9400f</item>
+        <item>@drawable/intel_core_i5_12600kf</item>
+        <item>@drawable/intel_core_i7_10700f</item>
+        <item>@drawable/ryzen_5_5600x</item>
+        <item>@drawable/ryzen_7_5700g</item>
+    </array>
+
+    <array name="gpu_images">
+        <item>@drawable/gtx_1660_super</item>
+        <item>@drawable/radeon_nitro_rx_6700_xt</item>
+        <item>@drawable/rtx_3060_12gb</item>
+        <item>@drawable/rx_6500_xt</item>
+        <item>@drawable/rx_6600_xt_8gb</item>
+    </array>
+    
+    <array name="psu_images">
+        <item>@drawable/evga_supernova_650</item>
+        <item>@drawable/evga_650</item>
+        <item>@drawable/corsair_hx1200</item>
+        <item>@drawable/cm_elite_v3_600w</item>
+        <item>@drawable/silentiumpc_supremo_750w</item>
+    </array>
+
+    <array name="ram_images">
+        <item>@drawable/corsair_vengeance_8gb_ddr3_1600mhz</item>
+        <item>@drawable/crucial_ballistix_32gb_ddr4_3200mhz</item>
+        <item>@drawable/kingston_fury_beast_16gb_ddr4_3200mhz</item>
+        <item>@drawable/crucial_ballistix_16gb_ddr4_3200mhz</item>
+        <item>@drawable/g_skill_aegis_16gb_ddr4_3200mhz</item>
+    </array>
+
+    <array name="motherboard_images">
+        <item>@drawable/msi_mag_b460_tomahawk</item>
+        <item>@drawable/asus_rog_strix_b550_f_gaming</item>
+        <item>@drawable/asus_rog_strix_b450_f_gaming_ii</item>
+        <item>@drawable/asus_tuf_gaming_b560m_plus</item>
+        <item>@drawable/asus_tuf_gaming_b560_plus_wifi</item>
+    </array>
+
+    <array name="cooler_images">
+        <item>@drawable/be_quiet_dark_rock_4</item>
+        <item>@drawable/be_quiet_dark_rock_pro_4</item>
+        <item>@drawable/noctua_chromax_nh_d15</item>
+        <item>@drawable/noctua_nh_u12s_fan_nh_u12s</item>
+        <item>@drawable/be_quiet_pure_rock_2</item>
+    </array>
+
 </resources>

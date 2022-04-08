@@ -3,10 +3,12 @@ package com.riczz.pcbuilder;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +25,9 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.OAuthProvider;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 0x14de32;
 
     private NavigationView navigationView;
+    private FrameLayout fragmentContainer;
 
     private GoogleSignInClient googleSignInClient;
     private FirebaseAuth firebaseAuth;
@@ -77,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
                     signInWithGoogle();
                     break;
                 }
+                case R.id.github: {
+                    signInWithGithub();
+                    break;
+                }
                 case R.id.signout: {
                     logout(true);
                     break;
@@ -88,10 +98,17 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-    }
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
 
-    private void signInWithEmail() {
-        startActivity(new Intent(this, RegisterLoginActivity.class));
+            if (itemId == R.id.home) {
+                switchFragment(new BuildsListFragment());
+            } else if (itemId == R.id.settings) {
+                switchFragment(new SettingsFragment());
+            }
+            return true;
+        });
+        bottomNavigationView.setSelectedItemId(R.id.home);
     }
 
     @Override
@@ -145,6 +162,41 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void switchFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
+    }
+
+    private void signInWithEmail() {
+        startActivity(new Intent(this, RegisterLoginActivity.class));
+    }
+
+    private void signInWithGoogle() {
+        Intent intent = googleSignInClient.getSignInIntent();
+        startActivityForResult(intent, RC_SIGN_IN);
+    }
+
+    private void signInWithGithub() {
+        OAuthProvider.Builder provider = OAuthProvider.newBuilder("github.com");
+        provider.addCustomParameter("allow_signup", "true");
+
+        firebaseAuth
+                .startActivityForSignInWithProvider(this, provider.build())
+                .addOnSuccessListener(authResult -> {
+                    Toast.makeText(this,
+                            String.format("Successfully signed in!\n%s",
+                                    Objects.requireNonNull(authResult.getUser()).getEmail()), Toast.LENGTH_SHORT)
+                            .show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this,
+                            "Could not sign in!\nAn error occurred.", Toast.LENGTH_SHORT)
+                            .show();
+                });
+    }
+
     private void signInAnonymously() {
         firebaseAuth.signInAnonymously().addOnCompleteListener(this, result -> {
             if (result.isSuccessful()) {
@@ -154,11 +206,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Could not sign in!\nAn error occurred.", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void signInWithGoogle() {
-        Intent intent = googleSignInClient.getSignInIntent();
-        startActivityForResult(intent, RC_SIGN_IN);
     }
 
     private void logout(boolean showToast) {
