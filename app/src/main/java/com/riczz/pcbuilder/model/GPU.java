@@ -14,6 +14,15 @@ public class GPU extends Hardware {
     public GPU() {
     }
 
+    @Override
+    public String getDescription() {
+        StringBuilder builder = new StringBuilder();
+        return builder
+                .append("Desktop GPU\nVRAM:").append(memory)
+                .append("\nFrequency: ").append(frequency)
+                .toString();
+    }
+
     public int getMemory() {
         return memory;
     }

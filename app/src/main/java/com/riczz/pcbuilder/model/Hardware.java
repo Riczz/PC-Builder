@@ -4,7 +4,7 @@ import com.google.firebase.firestore.Exclude;
 
 public abstract class Hardware {
     private HardwareType type;
-    private String name;
+    private String name, typeName;
     private int id, price, wattage, iconId;
 
     public Hardware(int id, HardwareType type, String name, int price, int wattage, int iconId) {
@@ -14,6 +14,7 @@ public abstract class Hardware {
         this.wattage = wattage;
         this.iconId = iconId;
         this.type = type;
+        this.typeName = type.name();
     }
 
     public Hardware(int id, String name, int price, int wattage, int iconId) {
@@ -22,11 +23,13 @@ public abstract class Hardware {
         this.price = price;
         this.wattage = wattage;
         this.iconId = iconId;
-        this.type = HardwareType.CPU; //TODO
+        this.type = HardwareType.CPU;
     }
 
     public Hardware() {
     }
+
+    public abstract String getDescription();
 
     public int getId() {
         return id;

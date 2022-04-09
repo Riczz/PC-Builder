@@ -1,5 +1,9 @@
 package com.riczz.pcbuilder.model;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Locale;
+
 public class CPU extends Hardware {
 
     private int numberOfCores, numberOfThreads;
@@ -43,8 +47,26 @@ public class CPU extends Hardware {
         LGA_1700, TR_4
     }
 
-    public int getNumberOfCores() { return numberOfCores; }
-    public int getNumberOfThreads() { return numberOfThreads; }
+    @Override
+    public String getDescription() {
+        StringBuilder builder = new StringBuilder();
+        return builder
+                .append("Desktop CPU\nManufacturer: ").append(manufacturer.equals(Manufacturer.AMD) ? "AMD\n" : "Intel\n")
+                .append("Socket type: ").append(StringUtils.capitalize(socket.toLowerCase(Locale.ROOT)))
+                .append("No. cores: ").append(numberOfCores)
+                .append("\nNo. threads: ").append(numberOfThreads)
+                .append("\nArchitecture: ").append(StringUtils.capitalize(architecture.toLowerCase(Locale.ROOT)))
+                .toString();
+    }
+
+    public int getNumberOfCores() {
+        return numberOfCores;
+    }
+
+    public int getNumberOfThreads() {
+        return numberOfThreads;
+    }
+
     public String getArchitecture() {
         return architecture;
     }
