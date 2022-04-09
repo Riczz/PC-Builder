@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.riczz.pcbuilder.R;
 import com.riczz.pcbuilder.dao.HardwareDAO;
@@ -22,18 +25,23 @@ import com.riczz.pcbuilder.model.HardwareType;
 import com.riczz.pcbuilder.model.ProductItem;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.ViewHolder> {
+public class ProductItemAdapter
+        extends RecyclerView.Adapter<ProductItemAdapter.ViewHolder> implements Filterable {
 
+    private Context context;
     private ArrayList<ProductItem> productItems;
     private ArrayList<ProductItem> productItemsAll;
-    private Context context;
+    private RecyclerViewClickListener clickListener;
+
     private int lastPosition = -1;
 
-    public ProductItemAdapter(Context context, ArrayList<ProductItem> productItems) {
+    public ProductItemAdapter(Context context, ArrayList<ProductItem> productItems, RecyclerViewClickListener listener) {
+        this.context = context;
         this.productItems = productItems;
         this.productItemsAll = productItems;
-        this.context = context;
+        this.clickListener = listener;
     }
 
     @NonNull
@@ -42,16 +50,51 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
         return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.product_item, parent, false));
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull ProductItemAdapter.ViewHolder holder, int position) {
-        holder.bindTo(productItems.get(position));
+        holder.bindTo(productItems.get(position), position);
     }
 
     @Override
     public int getItemCount() {
         return productItems.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return productFilter;
+    }
+
+    private Filter productFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            ArrayList<ProductItem> filteredProducts = new ArrayList<>();
+            FilterResults results = new FilterResults();
+
+            if (charSequence == null || charSequence.length() == 0) {
+                results.count = productItemsAll.size();
+                results.values = productItemsAll;
+            } else {
+                String filterPattern = charSequence.toString().toLowerCase(Locale.ROOT).trim();
+
+                for (ProductItem item : productItemsAll) {
+                    if (item.getHardware().getName().toLowerCase(Locale.ROOT).contains(filterPattern)) {
+                        filteredProducts.add(item);
+                    }
+                }
+                results.count = filteredProducts.size();
+                results.values = filteredProducts;
+            }
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            productItems = (ArrayList<ProductItem>) filterResults.values;
+            notifyDataSetChanged();
+        }
+    };
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -72,32 +115,37 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
             price = itemView.findViewById(R.id.product_price);
         }
 
-        private void bindTo(ProductItem item) {
-            Task<QuerySnapshot> query =
-            new HardwareDAO()
-                    .getHardwareById(item.getHardwareId())
-                    .addOnSuccessListener(queryDocumentSnapshots -> {
-                        String type = (String) queryDocumentSnapshots.getDocuments().get(0).get("typeName");
-                        item.setHardware((Hardware) queryDocumentSnapshots.getDocuments().get(0).toObject(HardwareType.getClass(type)));
+        private void bindTo(ProductItem item, int position) {
+            Task<QuerySnapshot> task = new HardwareDAO().getHardwareById(item.getHardwareId());
 
-                        Hardware hardware = item.getHardware();
-                        String price = hardware.getPrice() + " HUF";
-                        String wattage = hardware.getWattage() + "W";
+            task.addOnSuccessListener(queryDocumentSnapshots -> {
+                DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
+                String hardwareType = (String) document.get("typeName");
+                Hardware hardwareObject = (Hardware) document.toObject(HardwareType.getClass(hardwareType));
+                item.setHardware((Hardware) hardwareObject);
 
-                        title.setText(hardware.getName());
-                        ratingBar.setRating(item.getRating());
-                        description.setText(hardware.getDescription());
-                        this.wattage.setText(wattage);
-                        this.price.setText(price);
-                        Glide.with(context).load(hardware.getIconId()).into(banner);
+                setupView(item);
+                productButton.setOnClickListener(view -> clickListener.productClickListener(position));
+            });
+            item.setTask(task);
+        }
 
-                        if ("0W".equals(wattage)) {
-                            this.wattage.setText("");
-                            wattageIcon.setVisibility(View.GONE);
-                        }
+        private void setupView(ProductItem item) {
+            Hardware hardware = item.getHardware();
+            String price = hardware.getPrice() + " HUF";
+            String wattage = hardware.getWattage() + "W";
 
-                    });
-            item.setQuery(query);
+            title.setText(hardware.getName());
+            ratingBar.setRating(item.getRating());
+            description.setText(hardware.getDescription());
+            this.wattage.setText(wattage);
+            this.price.setText(price);
+            Glide.with(context).load(hardware.getIconId()).into(banner);
+
+            if ("0W".equals(wattage)) {
+                this.wattage.setText("");
+                wattageIcon.setVisibility(View.GONE);
+            }
         }
     }
 }

@@ -23,6 +23,7 @@
     <string name="total_price">TOTAL PRICE:</string>
     <string name="product_description">Product description</string>
     <string name="wattage_icon">Wattage icon</string>
+    <string name="product_search">Product search</string>
 
     <array name="case_images">
         <item>@drawable/h500p</item>

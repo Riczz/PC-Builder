@@ -7,14 +7,18 @@ import android.view.LayoutInflater;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.card.MaterialCardView;
 import com.riczz.pcbuilder.R;
 import com.riczz.pcbuilder.model.Hardware;
 import com.riczz.pcbuilder.model.HardwareType;
 
+import java.util.HashMap;
+
 public class ComponentButton extends MaterialCardView {
 
+    private final Context context;
     private final TextView textView;
 
     private String text;
@@ -25,20 +29,21 @@ public class ComponentButton extends MaterialCardView {
         super(context, attrs);
         LayoutInflater.from(context).inflate(R.layout.component_item, this, true);
 
+        this.context = context;
         this.textView = findViewById(R.id.componentTitle);
         this.selectedHardware = null;
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ComponentCardView);
         for (int i = 0; i < a.getIndexCount(); i++) {
-            int attr = a.getIndex(i);
+            String attr = a.getString(i);
 
-            switch (attr) {
+            switch (a.getIndex(i)) {
                 case R.styleable.ComponentCardView_text: {
-                    setText(a.getString(attr));
+                    setText(attr);
                     break;
                 }
                 case R.styleable.ComponentCardView_hardwareType: {
-                    setHardwareType(HardwareType.values()[attr]);
+                    setHardwareType(HardwareType.values()[Integer.parseInt(attr)]);
                     break;
                 }
             }
@@ -57,8 +62,12 @@ public class ComponentButton extends MaterialCardView {
         requestLayout();
     }
 
-    public void setSelectedHardware(Hardware selectedHardware) {
-        this.selectedHardware = selectedHardware;
+    public void setSelectedHardware(HashMap<String, Hardware> hardwareMap) {
+        if (hardwareMap.containsKey(hardwareType.name())) {
+            selectedHardware = hardwareMap.get(hardwareType.name());
+            textView.setTextColor(ContextCompat.getColor(context, R.color.teal_200));
+            setText(selectedHardware.getName());
+        }
     }
 
     public Hardware getSelectedHardware() {

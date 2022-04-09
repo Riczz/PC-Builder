@@ -1,24 +1,32 @@
 package com.riczz.pcbuilder;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.SearchView;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.riczz.pcbuilder.adapter.RecyclerViewClickListener;
 import com.riczz.pcbuilder.adapter.ProductItemAdapter;
-import com.riczz.pcbuilder.dao.ProductItemDAO;
+import com.riczz.pcbuilder.dao.HardwareDAO;
+import com.riczz.pcbuilder.model.Hardware;
 import com.riczz.pcbuilder.model.HardwareType;
 import com.riczz.pcbuilder.model.ProductItem;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class SelectComponentActivity extends AppCompatActivity {
+public class SelectComponentActivity extends AppCompatActivity implements RecyclerViewClickListener {
 
     private static final String TAG = SelectComponentActivity.class.getName();
 
@@ -26,32 +34,91 @@ public class SelectComponentActivity extends AppCompatActivity {
     private RecyclerView productsRecyclerView;
     private ProductItemAdapter adapter;
 
+    private HashMap<String, Hardware> components;
+    private HardwareType typeFilter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_component);
 
         productItems = new ArrayList<>();
-        adapter = new ProductItemAdapter(this, productItems);
+        adapter = new ProductItemAdapter(this, productItems, this);
 
         productsRecyclerView = findViewById(R.id.productsRecyclerView);
         productsRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         productsRecyclerView.setAdapter(adapter);
 
+        components = (HashMap<String, Hardware>) getIntent().getSerializableExtra("COMPONENTS");
+        typeFilter = (HardwareType) getIntent().getSerializableExtra("HW_FILTER");
+
+        queryProducts();
+
+    }
+
+    private void queryProducts() {
+        productItems.clear();
+        ArrayList<Integer> hardwareIds = new ArrayList<>();
+
         Task<QuerySnapshot> task =
-        new ProductItemDAO().getProducts();
+                new HardwareDAO().getHardwaresByType(typeFilter);
 
-        task.addOnSuccessListener(queryDocumentSnapshots -> {
-            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                productItems.add(document.toObject(ProductItem.class));
+        task.addOnSuccessListener(documents -> {
+            for (DocumentSnapshot document : documents) {
+                hardwareIds.add(document.get("id", Integer.class));
             }
-            adapter.notifyDataSetChanged();
+        }).addOnSuccessListener(documents -> {
+            for (int i = 0; i < hardwareIds.size(); i++) {
+                FirebaseFirestore.getInstance().collection("Products")
+                        .whereEqualTo("hardwareId", hardwareIds.get(i))
+                        .get()
+                        .addOnSuccessListener(documents1 -> {
+                            productItems.add(documents1.getDocuments().get(0).toObject(ProductItem.class));
+                            adapter.notifyDataSetChanged();
+                        });
+            }
         });
+    }
 
-        Serializable components = getIntent().getSerializableExtra("COMPONENTS");
-        HardwareType filter = (HardwareType) getIntent().getSerializableExtra("HW_FILTER");
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.products_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.product_search_bar);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
 
-        Log.e(TAG, "COMP: " + components);
-        Log.e(TAG, "FILTER: " + filter.name());
+            @Override
+            public boolean onQueryTextChange(String s) {
+                adapter.getFilter().filter(s);
+                return false;
+            }
+        });
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void productClickListener(int position) {
+        ProductItem item = productItems.get(position);
+        components.put(typeFilter.name(), item.getHardware());
+
+        Intent intent = new Intent();
+        intent.putExtra("COMPONENTS", components);
+        setResult(CreateBuildActivity.REQ_CODE, intent);
+        finish();
     }
 }

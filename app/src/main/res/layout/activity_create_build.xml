@@ -5,30 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--    <LinearLayout-->
-    <!--        android:id="@+id/buildInfo"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="10dp">-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/totalPrice"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginStart="10dp"-->
-    <!--            android:layout_gravity="start"-->
-    <!--            android:text="@string/total_price" />-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/totalWattage"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_gravity="end"-->
-    <!--            android:text="ASDAS"-->
-    <!--            android:textAlignment="textEnd" />-->
-    <!--    </LinearLayout>-->
-
-
     <TextView
         android:id="@+id/totalPrice"
         android:layout_width="wrap_content"
@@ -59,8 +35,6 @@
         android:src="@drawable/ic_wattage" />
 
     <com.google.android.material.card.MaterialCardView
-
-        android:id="@+id/componentsList"
         style="@style/Base.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,64 +48,113 @@
         android:focusable="true"
         android:scrollbars="vertical">
 
-        <com.riczz.pcbuilder.view.ComponentButton
-            android:id="@+id/cpuComponent"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            custom:hardwareType="0"
-            custom:text="Select Processor" />
+            android:background="#181818"
+            android:scrollbars="vertical">
 
-        <!--        <LinearLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:orientation="vertical" >-->
 
-        <!--            <com.riczz.pcbuilder.view.ComponentButton-->
-        <!--                android:id="@+id/cpuComponent"-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                custom:hardwareType="0"-->
-        <!--                custom:text="Select Processor" />-->
+            <LinearLayout
+                android:id="@+id/componentsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <!--            <com.riczz.pcbuilder.view.ComponentButton-->
-        <!--                android:id="@+id/gpuComponent"-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_marginTop="5dp"-->
-        <!--                custom:hardwareType="1"-->
-        <!--                custom:text="Select GPU" />-->
+                <com.riczz.pcbuilder.view.ComponentButton
+                    android:id="@+id/cpuComponent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    custom:cardBackgroundColor="#0A0A0A"
+                    custom:cardCornerRadius="20dp"
+                    custom:cardPreventCornerOverlap="false"
+                    custom:cardUseCompatPadding="true"
+                    custom:hardwareType="0"
+                    custom:text="Select Processor" />
 
-        <!--        </LinearLayout>-->
+                <com.riczz.pcbuilder.view.ComponentButton
+                    android:id="@+id/coolerComponent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    custom:cardBackgroundColor="#0A0A0A"
+                    custom:cardCornerRadius="20dp"
+                    custom:cardUseCompatPadding="true"
+                    custom:hardwareType="1"
+                    custom:text="Select CPU Cooler" />
 
-        <!--        <com.riczz.pcbuilder.view.ComponentButton-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            custom:hardwareType="1"-->
-        <!--            custom:text="ASDASD" />-->
+                <com.riczz.pcbuilder.view.ComponentButton
+                    android:id="@+id/motherboardComponent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    custom:cardBackgroundColor="#0A0A0A"
+                    custom:cardCornerRadius="20dp"
+                    custom:cardUseCompatPadding="true"
+                    custom:hardwareType="2"
+                    custom:text="Select Motherboard" />
 
-        <!--        <com.riczz.pcbuilder.view.ComponentButton-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            custom:hardwareType="2"-->
-        <!--            custom:text="ASDASD" />-->
+                <com.riczz.pcbuilder.view.ComponentButton
+                    android:id="@+id/gpuComponent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    custom:cardBackgroundColor="#0A0A0A"
+                    custom:cardCornerRadius="20dp"
+                    custom:cardUseCompatPadding="true"
+                    custom:hardwareType="3"
+                    custom:text="Select Video Card" />
 
-        <!--        <com.riczz.pcbuilder.view.ComponentButton-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            custom:hardwareType="3"-->
-        <!--            custom:text="ASDASD" />-->
+                <com.riczz.pcbuilder.view.ComponentButton
+                    android:id="@+id/ramComponent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    custom:cardBackgroundColor="#0A0A0A"
+                    custom:cardCornerRadius="20dp"
+                    custom:cardUseCompatPadding="true"
+                    custom:hardwareType="4"
+                    custom:text="Select RAM" />
 
-        <!--        <com.riczz.pcbuilder.view.ComponentButton-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            custom:hardwareType="4"-->
-        <!--            custom:text="ASDASD" />-->
+                <com.riczz.pcbuilder.view.ComponentButton
+                    android:id="@+id/psuComponent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    custom:cardBackgroundColor="#0A0A0A"
+                    custom:cardCornerRadius="20dp"
+                    custom:cardUseCompatPadding="true"
+                    custom:hardwareType="5"
+                    custom:text="Select Power Supply" />
 
-        <!--        <com.riczz.pcbuilder.view.ComponentButton-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            custom:hardwareType="5"-->
-        <!--            custom:text="ASDASD" />-->
+                <com.riczz.pcbuilder.view.ComponentButton
+                    android:id="@+id/caseComponent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    custom:cardBackgroundColor="#0A0A0A"
+                    custom:cardCornerRadius="20dp"
+                    custom:cardUseCompatPadding="true"
+                    custom:hardwareType="6"
+                    custom:text="Select Case" />
+
+            </LinearLayout>
+
+        </ScrollView>
 
     </com.google.android.material.card.MaterialCardView>
 </RelativeLayout>
