@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/buildInfo"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="10dp">-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/totalPrice"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginStart="10dp"-->
+    <!--            android:layout_gravity="start"-->
+    <!--            android:text="@string/total_price" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/totalWattage"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_gravity="end"-->
+    <!--            android:text="ASDAS"-->
+    <!--            android:textAlignment="textEnd" />-->
+    <!--    </LinearLayout>-->
+
+
+    <TextView
+        android:id="@+id/totalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="start"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/total_price" />
+
+    <TextView
+        android:id="@+id/totalWattage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="95W" />
+
+    <ImageView
+        android:layout_width="19dp"
+        android:layout_height="19dp"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@id/totalWattage"
+        android:src="@drawable/ic_wattage" />
+
+    <com.google.android.material.card.MaterialCardView
+
+        android:id="@+id/componentsList"
+        style="@style/Base.CardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/totalPrice"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:checkable="false"
+        android:clickable="true"
+        android:focusable="true"
+        android:scrollbars="vertical">
+
+        <com.riczz.pcbuilder.view.ComponentButton
+            android:id="@+id/cpuComponent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            custom:hardwareType="0"
+            custom:text="Select Processor" />
+
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:orientation="vertical" >-->
+
+        <!--            <com.riczz.pcbuilder.view.ComponentButton-->
+        <!--                android:id="@+id/cpuComponent"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                custom:hardwareType="0"-->
+        <!--                custom:text="Select Processor" />-->
+
+        <!--            <com.riczz.pcbuilder.view.ComponentButton-->
+        <!--                android:id="@+id/gpuComponent"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginTop="5dp"-->
+        <!--                custom:hardwareType="1"-->
+        <!--                custom:text="Select GPU" />-->
+
+        <!--        </LinearLayout>-->
+
+        <!--        <com.riczz.pcbuilder.view.ComponentButton-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            custom:hardwareType="1"-->
+        <!--            custom:text="ASDASD" />-->
+
+        <!--        <com.riczz.pcbuilder.view.ComponentButton-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            custom:hardwareType="2"-->
+        <!--            custom:text="ASDASD" />-->
+
+        <!--        <com.riczz.pcbuilder.view.ComponentButton-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            custom:hardwareType="3"-->
+        <!--            custom:text="ASDASD" />-->
+
+        <!--        <com.riczz.pcbuilder.view.ComponentButton-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            custom:hardwareType="4"-->
+        <!--            custom:text="ASDASD" />-->
+
+        <!--        <com.riczz.pcbuilder.view.ComponentButton-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            custom:hardwareType="5"-->
+        <!--            custom:text="ASDASD" />-->
+
+    </com.google.android.material.card.MaterialCardView>
+</RelativeLayout>

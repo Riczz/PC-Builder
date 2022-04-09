@@ -19,9 +19,7 @@ import com.riczz.pcbuilder.model.BuildItem;
 
 import java.util.ArrayList;
 
-public class BuildItemAdapter extends RecyclerView.Adapter<BuildItemAdapter.BuildItemViewHolder> {
-
-    private static final String TAG = BuildItemAdapter.class.getName();
+public class BuildItemAdapter extends RecyclerView.Adapter<BuildItemAdapter.ViewHolder> {
 
     private ArrayList<BuildItem> builds, buildsAll;
     private Context context;
@@ -34,25 +32,18 @@ public class BuildItemAdapter extends RecyclerView.Adapter<BuildItemAdapter.Buil
 
     @NonNull
     @Override
-    public BuildItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new BuildItemViewHolder(LayoutInflater.from(context).inflate(R.layout.build_item, parent, false));
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.build_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BuildItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bindTo(builds.get(position));
         holder.deleteButton.setOnClickListener(button -> {
             new AlertDialog.Builder(context)
                     .setTitle("Delete build")
                     .setMessage("Are you sure you want to delete this build?")
                     .setPositiveButton(android.R.string.yes, (dialogInterface, i) -> {
-
-//                        BuildItem item = builds.get(position);
-//                        DocumentSnapshot doc = FirebaseFirestore.getInstance()
-//                                .collection("Builds")
-//                                .whereEqualTo("title", item.getTitle())
-//                                .get().getResult().getDocuments().get(0);
-
                         builds.remove(position);
                         notifyItemRemoved(position);
                         notifyItemRangeChanged(position, getItemCount());
@@ -66,7 +57,7 @@ public class BuildItemAdapter extends RecyclerView.Adapter<BuildItemAdapter.Buil
         return builds.size();
     }
 
-    public class BuildItemViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         //TODO: Wattage
         private TextView title, wattage, price, description;
@@ -74,7 +65,7 @@ public class BuildItemAdapter extends RecyclerView.Adapter<BuildItemAdapter.Buil
         private ImageView manufacturer;
         private MaterialButton deleteButton;
 
-        public BuildItemViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             title = itemView.findViewById(R.id.build_item_title);
@@ -93,7 +84,6 @@ public class BuildItemAdapter extends RecyclerView.Adapter<BuildItemAdapter.Buil
 
             for (int iconId : item.getIconIds()) {
                 ImageView icon = (ImageView) inflater.inflate(R.layout.icon, iconsLayout, false);
-//              icon.setImageResource(iconId);
                 Glide.with(context).load(iconId).override(100, 100).into(icon);
 
             }

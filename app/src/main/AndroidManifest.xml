@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PCBuilder">
         <activity
+            android:name=".SelectComponentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateBuildActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterLoginActivity"
             android:exported="false" />
         <activity

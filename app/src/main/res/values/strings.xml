@@ -20,6 +20,9 @@
     <string name="login">Login</string>
     <string name="already_registered">Already registered?</string>
     <string name="cpu_manufacturer">CPU Manufacturer</string>
+    <string name="total_price">TOTAL PRICE:</string>
+    <string name="product_description">Product description</string>
+    <string name="wattage_icon">Wattage icon</string>
 
     <array name="case_images">
         <item>@drawable/h500p</item>
@@ -44,7 +47,7 @@
         <item>@drawable/rx_6500_xt</item>
         <item>@drawable/rx_6600_xt_8gb</item>
     </array>
-    
+
     <array name="psu_images">
         <item>@drawable/evga_supernova_650</item>
         <item>@drawable/evga_650</item>

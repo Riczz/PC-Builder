@@ -20,6 +20,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private NavigationView navigationView;
     private FrameLayout fragmentContainer;
+    private FloatingActionButton addButton;
 
     private GoogleSignInClient googleSignInClient;
     private FirebaseAuth firebaseAuth;
@@ -109,6 +111,12 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
         bottomNavigationView.setSelectedItemId(R.id.home);
+
+        addButton = findViewById(R.id.addButton);
+        addButton.setOnClickListener(button -> {
+            Intent intent = new Intent(this, CreateBuildActivity.class);
+            startActivity(intent);
+        });
     }
 
     @Override
