@@ -1,10 +1,13 @@
 package com.riczz.pcbuilder.model;
 
+import com.google.firebase.firestore.Exclude;
+
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.Serializable;
 import java.util.Locale;
 
-public class CPU extends Hardware {
+public class CPU extends Hardware implements Serializable {
 
     private int numberOfCores, numberOfThreads;
     private String architecture, socket, memoryType, frequency;
@@ -47,13 +50,14 @@ public class CPU extends Hardware {
         LGA_1700, TR_4
     }
 
+    @Exclude
     @Override
     public String getDescription() {
         StringBuilder builder = new StringBuilder();
         return builder
                 .append("Desktop CPU\nManufacturer: ").append(manufacturer.equals(Manufacturer.AMD) ? "AMD\n" : "Intel\n")
                 .append("Socket type: ").append(StringUtils.capitalize(socket.toLowerCase(Locale.ROOT)))
-                .append("No. cores: ").append(numberOfCores)
+                .append("\nNo. cores: ").append(numberOfCores)
                 .append("\nNo. threads: ").append(numberOfThreads)
                 .append("\nArchitecture: ").append(StringUtils.capitalize(architecture.toLowerCase(Locale.ROOT)))
                 .toString();

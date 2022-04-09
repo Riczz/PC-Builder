@@ -1,6 +1,10 @@
 package com.riczz.pcbuilder.model;
 
-public class PSU extends Hardware {
+import com.google.firebase.firestore.Exclude;
+
+import java.io.Serializable;
+
+public class PSU extends Hardware implements Serializable {
 
     private String modularity;
 
@@ -18,6 +22,7 @@ public class PSU extends Hardware {
         FULLY_MODULAR
     }
 
+    @Exclude
     @Override
     public String getDescription() {
         return  "Power supply\n" + modularity;

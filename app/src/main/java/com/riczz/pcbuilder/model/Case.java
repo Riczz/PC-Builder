@@ -1,10 +1,13 @@
 package com.riczz.pcbuilder.model;
 
+import com.google.firebase.firestore.Exclude;
+
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.Serializable;
 import java.util.Locale;
 
-public class Case extends Hardware {
+public class Case extends Hardware implements Serializable {
 
     private String motherboardType;
 
@@ -16,6 +19,7 @@ public class Case extends Hardware {
     public Case() {
     }
 
+    @Exclude
     @Override
     public String getDescription() {
         StringBuilder builder = new StringBuilder();

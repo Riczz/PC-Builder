@@ -2,7 +2,9 @@ package com.riczz.pcbuilder.model;
 
 import com.google.firebase.firestore.Exclude;
 
-public abstract class Hardware {
+import java.io.Serializable;
+
+public abstract class Hardware implements Serializable {
     private HardwareType type;
     private String name, typeName;
     private int id, price, wattage, iconId;
@@ -29,6 +31,7 @@ public abstract class Hardware {
     public Hardware() {
     }
 
+    @Exclude
     public abstract String getDescription();
 
     public int getId() {

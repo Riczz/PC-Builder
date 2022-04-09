@@ -1,6 +1,10 @@
 package com.riczz.pcbuilder.model;
 
-public class Memory extends Hardware {
+import com.google.firebase.firestore.Exclude;
+
+import java.io.Serializable;
+
+public class Memory extends Hardware implements Serializable {
 
     private int capacity, frequency;
     private String memoryType, memoryKit, latency;
@@ -35,6 +39,7 @@ public class Memory extends Hardware {
         CL_10, CL_11, CL_12, CL_13, CL_14, CL_15, CL_16
     }
 
+    @Exclude
     @Override
     public String getDescription() {
         StringBuilder builder = new StringBuilder();

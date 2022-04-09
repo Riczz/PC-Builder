@@ -1,6 +1,10 @@
 package com.riczz.pcbuilder.model;
 
-public class Cooler extends Hardware {
+import com.google.firebase.firestore.Exclude;
+
+import java.io.Serializable;
+
+public class Cooler extends Hardware implements Serializable {
 
     private boolean passive;
 
@@ -12,6 +16,7 @@ public class Cooler extends Hardware {
     public Cooler() {
     }
 
+    @Exclude
     @Override
     public String getDescription() {
         return "CPU Cooler\n" + (isPassive() ? "Passive" : "Active");

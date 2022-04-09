@@ -1,6 +1,10 @@
 package com.riczz.pcbuilder.model;
 
-public class Motherboard extends Hardware {
+import com.google.firebase.firestore.Exclude;
+
+import java.io.Serializable;
+
+public class Motherboard extends Hardware implements Serializable {
 
     private int maxMemory;
     private String size, memoryType, socket;
@@ -25,6 +29,7 @@ public class Motherboard extends Hardware {
         EATX
     }
 
+    @Exclude
     @Override
     public String getDescription() {
         StringBuilder builder = new StringBuilder();

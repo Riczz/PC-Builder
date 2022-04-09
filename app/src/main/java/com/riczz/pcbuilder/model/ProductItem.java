@@ -30,7 +30,7 @@ public class ProductItem {
         this.rating = Math.round(random.nextFloat() * 5.0f);
     }
 
-    public void setQuery(Task<QuerySnapshot> query) {
+    public void setTask(Task<QuerySnapshot> query) {
         this.query = query;
     }
 
@@ -43,6 +43,7 @@ public class ProductItem {
         return query;
     }
 
+    @Exclude
     public Hardware getHardware() {
         return hardware;
     }

@@ -1,6 +1,10 @@
 package com.riczz.pcbuilder.model;
 
-public class GPU extends Hardware {
+import com.google.firebase.firestore.Exclude;
+
+import java.io.Serializable;
+
+public class GPU extends Hardware implements Serializable {
 
     private int memory;
     private String frequency;
@@ -14,11 +18,12 @@ public class GPU extends Hardware {
     public GPU() {
     }
 
+    @Exclude
     @Override
     public String getDescription() {
         StringBuilder builder = new StringBuilder();
         return builder
-                .append("Desktop GPU\nVRAM:").append(memory)
+                .append("Desktop GPU\nVRAM: ").append(memory)
                 .append("\nFrequency: ").append(frequency)
                 .toString();
     }
