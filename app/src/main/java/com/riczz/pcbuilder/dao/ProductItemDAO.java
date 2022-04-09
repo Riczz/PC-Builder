@@ -15,7 +15,7 @@ public class ProductItemDAO implements IProductItemDAO {
     @Override
     public Task<QuerySnapshot> getProductById(int id) {
         return firestore.collection("Products")
-                .whereEqualTo("id", id)
+                .whereEqualTo("id", String.valueOf(id))
                 .get();
     }
 
