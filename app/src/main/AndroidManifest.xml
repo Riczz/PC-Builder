@@ -11,10 +11,12 @@
         android:theme="@style/Theme.PCBuilder">
         <activity
             android:name=".SelectComponentActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false"
             android:theme="@style/Theme.MaterialComponents" />
         <activity
             android:name=".CreateBuildActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false" />
         <activity
             android:name=".RegisterLoginActivity"

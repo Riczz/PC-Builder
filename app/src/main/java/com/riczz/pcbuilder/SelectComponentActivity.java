@@ -34,6 +34,7 @@ public class SelectComponentActivity extends AppCompatActivity implements Recycl
     private RecyclerView productsRecyclerView;
     private ProductItemAdapter adapter;
 
+    private String buildName;
     private HashMap<String, Hardware> components;
     private HardwareType typeFilter;
 
@@ -49,6 +50,7 @@ public class SelectComponentActivity extends AppCompatActivity implements Recycl
         productsRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         productsRecyclerView.setAdapter(adapter);
 
+        buildName = getIntent().getStringExtra("BUILD_NAME");
         components = (HashMap<String, Hardware>) getIntent().getSerializableExtra("COMPONENTS");
         typeFilter = (HardwareType) getIntent().getSerializableExtra("HW_FILTER");
 
@@ -69,15 +71,29 @@ public class SelectComponentActivity extends AppCompatActivity implements Recycl
             }
         }).addOnSuccessListener(documents -> {
             for (int i = 0; i < hardwareIds.size(); i++) {
-                FirebaseFirestore.getInstance().collection("Products")
-                        .whereEqualTo("hardwareId", hardwareIds.get(i))
-                        .get()
+                FirebaseFirestore.getInstance()
+                        .collection("Products")
+                        .whereEqualTo("hardwareId", hardwareIds.get(i)).get()
                         .addOnSuccessListener(documents1 -> {
                             productItems.add(documents1.getDocuments().get(0).toObject(ProductItem.class));
-                            adapter.notifyDataSetChanged();
+                            adapter.notifyItemInserted(productItems.size()-1);
                         });
             }
         });
+    }
+
+    @Override
+    public void productClickListener(int position) {
+        ProductItem item = productItems.get(position);
+        components.put(typeFilter.name(), item.getHardware());
+        saveComponents();
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        saveComponents();
+        finish();
     }
 
     @Override
@@ -111,14 +127,10 @@ public class SelectComponentActivity extends AppCompatActivity implements Recycl
         return super.onPrepareOptionsMenu(menu);
     }
 
-    @Override
-    public void productClickListener(int position) {
-        ProductItem item = productItems.get(position);
-        components.put(typeFilter.name(), item.getHardware());
-
+    private void saveComponents() {
         Intent intent = new Intent();
+        intent.putExtra("BUILD_NAME", buildName);
         intent.putExtra("COMPONENTS", components);
         setResult(CreateBuildActivity.REQ_CODE, intent);
-        finish();
     }
 }

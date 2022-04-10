@@ -4,10 +4,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +32,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.OAuthProvider;
+import com.riczz.pcbuilder.model.BuildItem;
 
 import java.util.Objects;
 
@@ -34,10 +40,12 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getName();
     private static final int RC_SIGN_IN = 0x14de32;
+    private static final int RC_SAVE_BUILD = 0x82f3e;
 
     private NavigationView navigationView;
     private FrameLayout fragmentContainer;
     private FloatingActionButton addButton;
+    private BuildViewModel viewModel;
 
     private GoogleSignInClient googleSignInClient;
     private FirebaseAuth firebaseAuth;
@@ -114,8 +122,23 @@ public class MainActivity extends AppCompatActivity {
 
         addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(button -> {
-            Intent intent = new Intent(this, CreateBuildActivity.class);
-            startActivity(intent);
+            String buildName;
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("New build");
+
+            View nameInputView = LayoutInflater.from(this).inflate(R.layout.input_build_name, fragmentContainer, false);
+            EditText input = (EditText) nameInputView.findViewById(R.id.input_build_name);
+            builder.setView(nameInputView);
+
+            builder.setPositiveButton(android.R.string.ok, (dialog, i) -> {
+                dialog.dismiss();
+                Intent intent = new Intent(this, CreateBuildActivity.class);
+                intent.putExtra("BUILD_NAME", input.getText().toString());
+                startActivityForResult(intent, RC_SAVE_BUILD);
+            }).setNegativeButton(android.R.string.cancel, (dialog, i) -> {
+                dialog.cancel();
+            }).show();
         });
     }
 
@@ -151,6 +174,10 @@ public class MainActivity extends AppCompatActivity {
             } catch (ApiException e) {
                 Log.w(TAG, "Could not sign in!", e);
             }
+        } else if (requestCode == RC_SAVE_BUILD) {
+            viewModel = new ViewModelProvider(this).get(BuildViewModel.class);
+            BuildItem buildItem = (BuildItem) data.getSerializableExtra("BUILD_ITEM");
+            viewModel.addBuild(buildItem);
         }
     }
 

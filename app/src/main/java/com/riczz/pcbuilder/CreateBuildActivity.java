@@ -4,11 +4,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.riczz.pcbuilder.model.BuildItem;
 import com.riczz.pcbuilder.model.Hardware;
 import com.riczz.pcbuilder.model.PSU;
 import com.riczz.pcbuilder.view.ComponentButton;
@@ -20,11 +22,13 @@ import java.util.Locale;
 
 public class CreateBuildActivity extends AppCompatActivity {
 
+    private String buildName;
+    private HashMap<String, Hardware> selectedComponents;
+    private int totalPrice, totalWattage, psuWattage;
+
     private ViewGroup componentsList;
     private ArrayList<ComponentButton> componentButtons;
-    private HashMap<String, Hardware> selectedComponents;
-
-    private TextView totalPrice, totalWattage;
+    private TextView totalPriceTextView, totalWattageTextView;
 
     public static final int REQ_CODE = 21361783;
 
@@ -37,25 +41,54 @@ public class CreateBuildActivity extends AppCompatActivity {
         componentButtons = getComponentButtons();
         selectedComponents = new HashMap<>();
 
-        totalPrice = findViewById(R.id.totalPrice);
-        totalWattage = findViewById(R.id.totalWattage);
+        buildName = getIntent().hasExtra("BUILD_NAME") ?
+                getIntent().getStringExtra("BUILD_NAME") : "";
+
+        totalPriceTextView = findViewById(R.id.totalPrice);
+        totalWattageTextView = findViewById(R.id.totalWattage);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        selectedComponents = (HashMap<String, Hardware>) data.getSerializableExtra("COMPONENTS");
+        if (requestCode != REQ_CODE) {
+            finish();
+        }
 
-        if (requestCode != REQ_CODE || selectedComponents == null)
-            return;
+        selectedComponents = (HashMap<String, Hardware>) data.getSerializableExtra("COMPONENTS");
+        buildName = data.getStringExtra("BUILD_NAME");
 
         for (ComponentButton button : componentButtons) {
             button.setSelectedHardware(selectedComponents);
         }
 
-        int totalPrice = 0, totalWattage = 0, psuWattage = 0;
+        setupView();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        for (ComponentButton button : componentButtons) {
+            HashMap<String, Hardware> finalHardwares = selectedComponents;
+
+            button.setOnClickListener(view -> {
+                Intent intent = new Intent(this, SelectComponentActivity.class);
+                intent.putExtra("BUILD_NAME", buildName);
+                intent.putExtra("COMPONENTS", finalHardwares);
+                intent.putExtra("HW_FILTER", ((ComponentButton) view).getHardwareType());
+                startActivityForResult(intent, REQ_CODE);
+            });
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        showSavePrompt();
+    }
+
+    private void setupView() {
         for (Hardware hardware : selectedComponents.values()) {
             totalPrice += hardware.getPrice();
 
@@ -69,7 +102,7 @@ public class CreateBuildActivity extends AppCompatActivity {
 
         NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.forLanguageTag("hu"));
         String priceString = "TOTAL PRICE: " + formatter.format(totalPrice) + " HUF";
-        this.totalPrice.setText(priceString);
+        this.totalPriceTextView.setText(priceString);
 
         int wattageDiff = psuWattage - totalWattage, wattageColor;
 
@@ -81,25 +114,27 @@ public class CreateBuildActivity extends AppCompatActivity {
             wattageColor = R.color.green_400;
         }
 
-        this.totalWattage.setTextColor(ContextCompat.getColor(getBaseContext(), wattageColor));
-        this.totalWattage.setText(totalWattage + "W");
-
+        this.totalWattageTextView.setTextColor(ContextCompat.getColor(getBaseContext(), wattageColor));
+        this.totalWattageTextView.setText(String.valueOf(totalWattage) + "W");
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    private void showSavePrompt() {
+        new AlertDialog.Builder(this)
+                .setTitle("Save build")
+                .setMessage("Save " + buildName.toLowerCase(Locale.ROOT) + "?")
+                .setPositiveButton(android.R.string.yes, (dialogInterface, i) -> {
+                    Intent intent = new Intent();
+                    BuildItem buildItem = createBuild();
+                    intent.putExtra("BUILD_ITEM", buildItem);
+                    setResult(0x82f3e, intent);
+                    finish();
+                })
+                .setNegativeButton(android.R.string.no, null).show();
+    }
 
-        for (ComponentButton button : componentButtons) {
-            HashMap<String, Hardware> finalHardwares = selectedComponents;
-
-            button.setOnClickListener(view -> {
-                Intent intent = new Intent(this, SelectComponentActivity.class);
-                intent.putExtra("COMPONENTS", finalHardwares);
-                intent.putExtra("HW_FILTER", ((ComponentButton) view).getHardwareType());
-                startActivityForResult(intent, REQ_CODE);
-            });
-        }
+    private BuildItem createBuild() {
+        return new BuildItem(buildName, totalPrice, totalWattage,
+                new ArrayList<>(selectedComponents.values()));
     }
 
     private ArrayList<ComponentButton> getComponentButtons() {

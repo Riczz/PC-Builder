@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +39,7 @@ public class BuildsListFragment extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<BuildItem> builds;
     private BuildItemAdapter buildAdapter;
+    private BuildViewModel viewModel;
 
     private FirebaseFirestore firestore;
     private CollectionReference collectionReference;
@@ -46,21 +48,24 @@ public class BuildsListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.builds_fragment, container, false);
+        viewModel = new ViewModelProvider(requireActivity()).get(BuildViewModel.class);
+
         this.context = getContext();
-        
         recyclerView = view.findViewById(R.id.builds_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
-        builds = new ArrayList<>();
+        builds = viewModel.getBuilds();
 
         buildAdapter = new BuildItemAdapter(context, builds);
         recyclerView.setAdapter(buildAdapter);
 
-//        initializeData();
+        // Teszteléshez
+        // initializeData();
 
         return view;
     }
 
-    // Teszteléshez
+
+
     @SuppressLint("ResourceType")
     private void initializeData() {
 

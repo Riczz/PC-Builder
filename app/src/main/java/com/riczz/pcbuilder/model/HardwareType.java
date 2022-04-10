@@ -1,6 +1,10 @@
 package com.riczz.pcbuilder.model;
 
-public enum HardwareType {
+import com.google.firebase.firestore.Exclude;
+
+import java.io.Serializable;
+
+public enum HardwareType implements Serializable {
     CPU(CPU.class),
     COOLER(Cooler.class),
     MOTHERBOARD(Motherboard.class),
@@ -9,17 +13,19 @@ public enum HardwareType {
     PSU(PSU.class),
     CASE(Case.class);
 
-    private final Class hardwareClass;
+    @Exclude private Class hardwareClass;
 
     HardwareType(Class hardwareClass) {
         this.hardwareClass = hardwareClass;
     }
 
-    public Class getHardwareClass() {
+    HardwareType() {}
+
+    @Exclude public Class getHardwareClass() {
         return hardwareClass;
     }
 
-    public static Class getClass(String type) {
+    @Exclude public static Class getClass(String type) {
         return valueOf(type).hardwareClass;
     }
 }

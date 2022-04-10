@@ -98,16 +98,16 @@ public class ProductItemAdapter
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private CardView productButton;
         private TextView title, description, wattage, price;
         private ImageView banner, wattageIcon;
+        private CardView productButton;
         private RatingBar ratingBar;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             productButton = (CardView) itemView;
-            description = itemView.findViewById(R.id.product_description);
             wattageIcon = itemView.findViewById(R.id.product_wattage_icon);
+            description = itemView.findViewById(R.id.product_description);
             ratingBar = itemView.findViewById(R.id.product_rating);
             wattage = itemView.findViewById(R.id.product_wattage);
             banner = itemView.findViewById(R.id.product_banner);
@@ -134,6 +134,9 @@ public class ProductItemAdapter
             Hardware hardware = item.getHardware();
             String price = hardware.getPrice() + " HUF";
             String wattage = hardware.getWattage() + "W";
+
+            ratingBar.setVisibility(View.VISIBLE);
+            wattageIcon.setVisibility(View.VISIBLE);
 
             title.setText(hardware.getName());
             ratingBar.setRating(item.getRating());

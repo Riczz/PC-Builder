@@ -38,7 +38,7 @@ public abstract class Hardware implements Serializable {
         return id;
     }
 
-    @Exclude public HardwareType getType() { return type; }
+    public HardwareType getType() { return type; }
     public String getTypeName() { return type.name(); }
     public String getName() { return name; }
     public int getPrice() { return price; }
