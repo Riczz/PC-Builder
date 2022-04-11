@@ -13,8 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_gravity="start"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/total_price" />
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/totalWattage"
@@ -24,8 +23,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:text="95W" />
+        android:layout_marginEnd="10dp" />
 
     <ImageView
         android:layout_width="19dp"

@@ -20,10 +20,17 @@
     <string name="login">Login</string>
     <string name="already_registered">Already registered?</string>
     <string name="cpu_manufacturer">CPU Manufacturer</string>
-    <string name="total_price">TOTAL PRICE:</string>
     <string name="product_description">Product description</string>
     <string name="wattage_icon">Wattage icon</string>
+    <string name="wattage_format">%1$dW</string>
+    <string name="currency">HUF</string>
+    <string name="price_format">%1$s %2$s</string>
+    <string name="total_price_format">TOTAL PRICE: %1$s %2$s</string>
     <string name="product_search">Product search</string>
+    <string name="build_name">Build Name</string>
+    <string name="e_mail_address_prompt">E-mail Address</string>
+    <string name="password_prompt">Password</string>
+    <string name="password_again_prompt">Password again</string>
 
     <array name="case_images">
         <item>@drawable/h500p</item>

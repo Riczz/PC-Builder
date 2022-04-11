@@ -1,6 +1,7 @@
 package com.riczz.pcbuilder.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,9 +132,8 @@ public class ProductItemAdapter
         }
 
         private void setupView(ProductItem item) {
+            Resources resources = context.getResources();
             Hardware hardware = item.getHardware();
-            String price = hardware.getPrice() + " HUF";
-            String wattage = hardware.getWattage() + "W";
 
             ratingBar.setVisibility(View.VISIBLE);
             wattageIcon.setVisibility(View.VISIBLE);
@@ -141,8 +141,13 @@ public class ProductItemAdapter
             title.setText(hardware.getName());
             ratingBar.setRating(item.getRating());
             description.setText(hardware.getDescription());
-            this.wattage.setText(wattage);
-            this.price.setText(price);
+
+            this.wattage.setText(resources.getString(R.string.wattage_format, hardware.getWattage()));
+            this.price.setText(
+                    resources.getString(R.string.price_format,
+                    String.valueOf(hardware.getPrice()),
+                    resources.getString(R.string.currency))
+            );
             Glide.with(context).load(hardware.getIconId()).into(banner);
 
             if ("0W".equals(wattage)) {

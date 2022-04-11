@@ -1,67 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="5dp"
-    android:layout_marginEnd="5dp"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:labelFor="@id/editTextEmailR"
-        android:text="@string/e_mail_colon" />
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/editTextEmailR"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:autofillHints="emailAddress"
-        android:backgroundTint="@color/teal_200"
-        android:ems="12"
-        android:inputType="textEmailAddress"
-        android:minHeight="48dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/editTextEmailR"
+            android:text="@string/e_mail_colon" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:labelFor="@id/editTextPasswordR"
-        android:text="@string/password_colon" />
+        <EditText
+            android:id="@+id/editTextEmailR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:autofillHints="emailAddress"
+            android:backgroundTint="@color/teal_200"
+            android:ems="12"
+            android:hint="@string/e_mail_address_prompt"
+            android:inputType="textEmailAddress"
+            android:minHeight="48dp" />
 
-    <EditText
-        android:id="@+id/editTextPasswordR"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:autofillHints="password"
-        android:backgroundTint="@color/teal_200"
-        android:ems="12"
-        android:inputType="textPassword" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:labelFor="@id/editTextPasswordR"
+            android:text="@string/password_colon" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:labelFor="@id/editTextPasswordConfirmR"
-        android:text="@string/confirm_password" />
+        <EditText
+            android:id="@+id/editTextPasswordR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:autofillHints="password"
+            android:backgroundTint="@color/teal_200"
+            android:ems="12"
+            android:hint="@string/password_prompt"
+            android:inputType="textPassword" />
 
-    <EditText
-        android:id="@+id/editTextPasswordConfirmR"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:autofillHints="password"
-        android:backgroundTint="@color/teal_200"
-        android:ems="12"
-        android:inputType="textPassword" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:labelFor="@id/editTextPasswordConfirmR"
+            android:text="@string/confirm_password" />
 
-    <Button
-        android:id="@+id/registerButton"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_marginTop="24dp"
-        android:text="@string/register" />
-</LinearLayout>
+        <EditText
+            android:id="@+id/editTextPasswordConfirmR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:autofillHints="password"
+            android:backgroundTint="@color/teal_200"
+            android:ems="12"
+            android:hint="@string/password_again_prompt"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/registerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="48dp"
+            android:text="@string/register" />
+    </LinearLayout>
+
+</ScrollView>

@@ -3,6 +3,7 @@
     android:id="@+id/builds_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="vertical">
+    android:scrollbars="vertical"
+    android:tag="BUILDS_FRAGMENT">
 
 </androidx.recyclerview.widget.RecyclerView>

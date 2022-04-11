@@ -7,7 +7,10 @@ import androidx.core.content.ContextCompat;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.riczz.pcbuilder.model.BuildItem;
@@ -46,6 +49,9 @@ public class CreateBuildActivity extends AppCompatActivity {
 
         totalPriceTextView = findViewById(R.id.totalPrice);
         totalWattageTextView = findViewById(R.id.totalWattage);
+
+        this.totalPriceTextView.setText(getString(R.string.total_price_format, "0", getString(R.string.currency)));
+        this.totalWattageTextView.setText(getString(R.string.wattage_format, 0));
     }
 
     @Override
@@ -85,7 +91,7 @@ public class CreateBuildActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        showSavePrompt();
+        showSavePrompt(true);
     }
 
     private void setupView() {
@@ -101,8 +107,8 @@ public class CreateBuildActivity extends AppCompatActivity {
         }
 
         NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.forLanguageTag("hu"));
-        String priceString = "TOTAL PRICE: " + formatter.format(totalPrice) + " HUF";
-        this.totalPriceTextView.setText(priceString);
+        String priceString = formatter.format(totalPrice).split(",")[0];
+        this.totalPriceTextView.setText(getString(R.string.total_price_format, priceString, getString(R.string.currency)));
 
         int wattageDiff = psuWattage - totalWattage, wattageColor;
 
@@ -115,21 +121,34 @@ public class CreateBuildActivity extends AppCompatActivity {
         }
 
         this.totalWattageTextView.setTextColor(ContextCompat.getColor(getBaseContext(), wattageColor));
-        this.totalWattageTextView.setText(String.valueOf(totalWattage) + "W");
+        this.totalWattageTextView.setText(getString(R.string.wattage_format, totalWattage));
     }
 
-    private void showSavePrompt() {
+    private void showSavePrompt(boolean finishOnCancel) {
+
+        View nameInputView = LayoutInflater.from(this).inflate(R.layout.input_build_name, componentsList, false);
+        EditText input = (EditText) nameInputView.findViewById(R.id.input_build_name);
+        input.setText(buildName);
+//        input.setText(buildName.toLowerCase(Locale.ROOT).trim());
+
         new AlertDialog.Builder(this)
                 .setTitle("Save build")
                 .setMessage("Save " + buildName.toLowerCase(Locale.ROOT) + "?")
-                .setPositiveButton(android.R.string.yes, (dialogInterface, i) -> {
+                .setView(nameInputView)
+                .setPositiveButton(android.R.string.yes, (dialog, i) -> {
+                    dialog.dismiss();
                     Intent intent = new Intent();
                     BuildItem buildItem = createBuild();
                     intent.putExtra("BUILD_ITEM", buildItem);
                     setResult(0x82f3e, intent);
                     finish();
                 })
-                .setNegativeButton(android.R.string.no, null).show();
+                .setNegativeButton(android.R.string.no, (dialog, i) -> {
+                    dialog.cancel();
+                    if (finishOnCancel) {
+                        finish();
+                    }
+                }).show();
     }
 
     private BuildItem createBuild() {
