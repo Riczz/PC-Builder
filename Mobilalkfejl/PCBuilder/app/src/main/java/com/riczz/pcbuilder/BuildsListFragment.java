@@ -90,22 +90,25 @@ public class BuildsListFragment extends Fragment {
                 BuildItem buildItem = doc.toObject(BuildItem.class);
                 List<Long> hardwareIds = (List<Long>) doc.get("hardwareIds");
 
+                Task<QuerySnapshot> query = null;
+
                 for (Long id : hardwareIds) {
-                    hardwareDAO
+                    query = hardwareDAO
                             .getHardwareById(id.intValue())
                             .addOnSuccessListener(hardwareSnapshots -> {
                                 DocumentSnapshot hardwareDoc = hardwareSnapshots.getDocuments().get(0);
                                 String hardwareType = (String) hardwareDoc.get("typeName");
                                 Hardware obj = (Hardware) hardwareDoc.toObject(HardwareType.getClass(hardwareType));
                                 hardwares.add(obj);
-                            })
-                            .addOnSuccessListener(runnable -> {
-                                Objects.requireNonNull(buildItem).setId(doc.getId());
-                                Objects.requireNonNull(buildItem).setHardwares(hardwares);
-                                builds.add(buildItem);
-                                buildAdapter.notifyItemInserted(builds.size()-1);
                             });
                 }
+
+                query.addOnSuccessListener(runnable -> {
+                    Objects.requireNonNull(buildItem).setId(doc.getId());
+                    Objects.requireNonNull(buildItem).setHardwares(hardwares);
+                    builds.add(buildItem);
+                    buildAdapter.notifyItemInserted(builds.size()-1);
+                });
             }
         });
     }
