@@ -2,6 +2,7 @@ package com.riczz.pcbuilder;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,14 +16,21 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.riczz.pcbuilder.adapter.BuildItemAdapter;
+import com.riczz.pcbuilder.dao.BuildItemDAO;
+import com.riczz.pcbuilder.dao.HardwareDAO;
 import com.riczz.pcbuilder.model.BuildItem;
 import com.riczz.pcbuilder.model.CPU;
 import com.riczz.pcbuilder.model.Case;
 import com.riczz.pcbuilder.model.Cooler;
 import com.riczz.pcbuilder.model.GPU;
+import com.riczz.pcbuilder.model.Hardware;
+import com.riczz.pcbuilder.model.HardwareType;
 import com.riczz.pcbuilder.model.Manufacturer;
 import com.riczz.pcbuilder.model.Memory;
 import com.riczz.pcbuilder.model.Motherboard;
@@ -30,6 +38,8 @@ import com.riczz.pcbuilder.model.PSU;
 import com.riczz.pcbuilder.model.ProductItem;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class BuildsListFragment extends Fragment {
 
@@ -44,6 +54,9 @@ public class BuildsListFragment extends Fragment {
     private FirebaseFirestore firestore;
     private CollectionReference collectionReference;
 
+    private final HardwareDAO hardwareDAO = new HardwareDAO();
+    private final BuildItemDAO buildItemDAO = new BuildItemDAO();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,16 +68,55 @@ public class BuildsListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         builds = viewModel.getBuilds();
 
-        buildAdapter = new BuildItemAdapter(context, builds);
+        buildAdapter = new BuildItemAdapter(this, builds);
         recyclerView.setAdapter(buildAdapter);
 
         // Teszteléshez
-        // initializeData();
+        // InitializeData();
+
+        //TODO
+        builds.clear();
+        queryBuilds();
 
         return view;
     }
 
+    private void queryBuilds() {
+        Task<QuerySnapshot> task = buildItemDAO.getBuildItems();
+        task.addOnSuccessListener(buildSnapshots -> {
+            ArrayList<Hardware> hardwares = new ArrayList<>();
 
+            for (DocumentSnapshot doc : buildSnapshots.getDocuments()) {
+                BuildItem buildItem = doc.toObject(BuildItem.class);
+                List<Long> hardwareIds = (List<Long>) doc.get("hardwareIds");
+
+                for (Long id : hardwareIds) {
+                    hardwareDAO
+                            .getHardwareById(id.intValue())
+                            .addOnSuccessListener(hardwareSnapshots -> {
+                                DocumentSnapshot hardwareDoc = hardwareSnapshots.getDocuments().get(0);
+                                String hardwareType = (String) hardwareDoc.get("typeName");
+                                Hardware obj = (Hardware) hardwareDoc.toObject(HardwareType.getClass(hardwareType));
+                                hardwares.add(obj);
+                            })
+                            .addOnSuccessListener(runnable -> {
+                                Objects.requireNonNull(buildItem).setId(doc.getId());
+                                Objects.requireNonNull(buildItem).setHardwares(hardwares);
+                                builds.add(buildItem);
+                                buildAdapter.notifyItemInserted(builds.size()-1);
+                            });
+                }
+            }
+        });
+    }
+
+    public void modifyBuild(BuildItem item) {
+        Intent intent = new Intent(getActivity(), CreateBuildActivity.class);
+        intent.putExtra("BUILD_ID", item.getId());
+        intent.putExtra("BUILD_NAME", item.getTitle());
+        intent.putExtra("COMPONENTS", item.getComponentsMap());
+        startActivity(intent);
+    }
 
     @SuppressLint("ResourceType")
     private void initializeData() {

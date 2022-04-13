@@ -10,3 +10,12 @@
     app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
     app:strokeColor="@color/white"
     app:strokeWidth="2dp" />
+
+
+<!--<com.google.android.material.imageview.ShapeableImageView-->
+<!--android:id="@+id/thumbnail_image_view"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="match_parent"-->
+<!--android:adjustViewBounds="true"-->
+<!--android:scaleType="centerCrop"-->
+<!--app:shapeAppearanceOverlay="@style/ShapeAppearance.AppTheme.MediumComponent" />-->

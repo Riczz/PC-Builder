@@ -34,7 +34,7 @@ public class SelectComponentActivity extends AppCompatActivity implements Recycl
     private RecyclerView productsRecyclerView;
     private ProductItemAdapter adapter;
 
-    private String buildName;
+    private String buildName, buildId;
     private HashMap<String, Hardware> components;
     private HardwareType typeFilter;
 
@@ -51,6 +51,7 @@ public class SelectComponentActivity extends AppCompatActivity implements Recycl
         productsRecyclerView.setAdapter(adapter);
 
         buildName = getIntent().getStringExtra("BUILD_NAME");
+        buildId = getIntent().getStringExtra("BUILD_ID");
         components = (HashMap<String, Hardware>) getIntent().getSerializableExtra("COMPONENTS");
         typeFilter = (HardwareType) getIntent().getSerializableExtra("HW_FILTER");
 
@@ -130,6 +131,7 @@ public class SelectComponentActivity extends AppCompatActivity implements Recycl
     private void saveComponents() {
         Intent intent = new Intent();
         intent.putExtra("BUILD_NAME", buildName);
+        intent.putExtra("BUILD_ID", buildId);
         intent.putExtra("COMPONENTS", components);
         setResult(CreateBuildActivity.REQ_CODE, intent);
     }

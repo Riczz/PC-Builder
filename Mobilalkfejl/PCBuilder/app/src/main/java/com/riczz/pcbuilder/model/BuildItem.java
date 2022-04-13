@@ -5,12 +5,13 @@ import com.riczz.pcbuilder.R;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class BuildItem implements Serializable {
 
     private int totalPrice, totalWattage;
-    private String title, description;
+    private String id, title, description;
     private Integer manufacturerIconId;
     private List<Integer> hardwareIds, iconIds;
 
@@ -47,29 +48,39 @@ public class BuildItem implements Serializable {
         this.hardwares = new ArrayList<>();
         this.hardwareIds = new ArrayList<>();
         this.iconIds = new ArrayList<>();
-        this.manufacturerIconId = R.drawable.ic_amd_logo;
+        this.manufacturerIconId = R.drawable.ic_intel_logo;
     }
 
     public BuildItem() {
     }
 
-//    @Exclude
-//    public Hardware getHardware(HardwareType type) {
-//        if (this.hardwares == null) {
-//            return null;
-//        }
-//
-//        for (Hardware h : this.hardwares) {
-//            if (h.getType().equals(type)) {
-//                return h;
-//            }
-//        }
-//        return null;
-//    }
+    @Exclude
+    public HashMap<String, Hardware> getComponentsMap() {
+        HashMap<String, Hardware> components = new HashMap<>();
+        for (Hardware h : hardwares) {
+            components.put(h.getTypeName(), h);
+        }
+        return components;
+    }
 
     @Exclude
     public List<Hardware> getHardwares() {
         return hardwares;
+    }
+
+    @Exclude
+    public void setHardwares(List<Hardware> hardwares) {
+        this.hardwares = hardwares;
+    }
+
+    @Exclude
+    public String getId() {
+        return id;
+    }
+
+    @Exclude
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
