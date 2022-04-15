@@ -1,5 +1,7 @@
 package com.riczz.pcbuilder.model;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.firestore.Exclude;
 
 import java.io.Serializable;
@@ -14,9 +16,9 @@ public class Motherboard extends Hardware implements Serializable {
 
         super(id, HardwareType.MOTHERBOARD, name, price, 0, iconId);
         this.maxMemory = maxMemory;
-        this.size = size.name();
-        this.memoryType = memoryType.name();
-        this.socket = socket.name();
+        this.size = size.toString();
+        this.memoryType = memoryType.toString();
+        this.socket = socket.toString();
     }
 
     public Motherboard() {
@@ -26,7 +28,13 @@ public class Motherboard extends Hardware implements Serializable {
         MINI_ITX,
         MICRO_ATX,
         ATX,
-        EATX
+        EATX;
+
+        @NonNull
+        @Override
+        public String toString() {
+            return super.toString().replace('_', ' ');
+        }
     }
 
     @Exclude
@@ -40,12 +48,12 @@ public class Motherboard extends Hardware implements Serializable {
                 .toString();
     }
 
-    public String getSize() {
-        return size;
-    }
-
     public int getMaxMemory() {
         return maxMemory;
+    }
+
+    public String getSize() {
+        return size;
     }
 
     public String getMemoryType() {

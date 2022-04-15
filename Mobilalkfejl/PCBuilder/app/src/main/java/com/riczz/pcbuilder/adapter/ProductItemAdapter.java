@@ -140,7 +140,7 @@ public class ProductItemAdapter
 
             title.setText(hardware.getName());
             ratingBar.setRating(item.getRating());
-            description.setText(hardware.getDescription());
+            description.setText(item.getDescription());
 
             this.wattage.setText(resources.getString(R.string.wattage_format, hardware.getWattage()));
             this.price.setText(

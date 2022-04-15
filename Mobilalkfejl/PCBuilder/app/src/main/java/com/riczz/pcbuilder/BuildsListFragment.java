@@ -21,6 +21,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firestore.v1.Document;
 import com.riczz.pcbuilder.adapter.BuildItemAdapter;
 import com.riczz.pcbuilder.dao.BuildItemDAO;
 import com.riczz.pcbuilder.dao.HardwareDAO;
@@ -43,7 +44,7 @@ import java.util.Objects;
 
 public class BuildsListFragment extends Fragment {
 
-    private static final String TAG = BuildsListFragment.class.getName();
+    private static final int MODIFY_REQ = 0x7f31ed;
 
     private Context context;
     private RecyclerView recyclerView;
@@ -72,21 +73,20 @@ public class BuildsListFragment extends Fragment {
         recyclerView.setAdapter(buildAdapter);
 
         // Teszteléshez
-        // InitializeData();
+        // initializeData();
 
-        //TODO
-        builds.clear();
         queryBuilds();
 
         return view;
     }
 
     private void queryBuilds() {
+        builds.clear();
         Task<QuerySnapshot> task = buildItemDAO.getBuildItems();
-        task.addOnSuccessListener(buildSnapshots -> {
-            ArrayList<Hardware> hardwares = new ArrayList<>();
 
+        task.addOnSuccessListener(buildSnapshots -> {
             for (DocumentSnapshot doc : buildSnapshots.getDocuments()) {
+                ArrayList<Hardware> hardwares = new ArrayList<>();
                 BuildItem buildItem = doc.toObject(BuildItem.class);
                 List<Long> hardwareIds = (List<Long>) doc.get("hardwareIds");
 
@@ -107,7 +107,7 @@ public class BuildsListFragment extends Fragment {
                     Objects.requireNonNull(buildItem).setId(doc.getId());
                     Objects.requireNonNull(buildItem).setHardwares(hardwares);
                     builds.add(buildItem);
-                    buildAdapter.notifyItemInserted(builds.size()-1);
+                    buildAdapter.notifyItemInserted(builds.size() - 1);
                 });
             }
         });
@@ -118,7 +118,16 @@ public class BuildsListFragment extends Fragment {
         intent.putExtra("BUILD_ID", item.getId());
         intent.putExtra("BUILD_NAME", item.getTitle());
         intent.putExtra("COMPONENTS", item.getComponentsMap());
-        startActivity(intent);
+        startActivityForResult(intent, MODIFY_REQ);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == MODIFY_REQ) {
+            ((MainActivity) requireActivity()).switchFragment(new BuildsListFragment());
+        }
     }
 
     @SuppressLint("ResourceType")
@@ -182,7 +191,21 @@ public class BuildsListFragment extends Fragment {
         collectionReference = firestore.collection("Products");
 
         for (int i = 1; i <= hardwareId; i++) {
-            collectionReference.add(new ProductItem(i));
+            ProductItem item = new ProductItem(i);
+            int finalI = i;
+
+            collectionReference.add(item).addOnSuccessListener(documentReference -> {
+                String productId = documentReference.getId();
+
+                hardwareDAO.getHardwareById(finalI).addOnSuccessListener(queryDocumentSnapshots -> {
+                    DocumentSnapshot doc = queryDocumentSnapshots.getDocuments().get(0);
+                    String hardwareType = (String) doc.get("typeName");
+                    Hardware hardwareObject = (Hardware) doc.toObject(HardwareType.getClass(hardwareType));
+                    item.setHardware(hardwareObject);
+                    item.setDescription(hardwareObject.getDescription());
+                    collectionReference.document(productId).set(item);
+                });
+            });
         }
     }
 }

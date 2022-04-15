@@ -3,6 +3,7 @@ package com.riczz.pcbuilder.dao;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.riczz.pcbuilder.model.BuildItem;
 
@@ -34,6 +35,7 @@ public class BuildItemDAO implements IBuildItemDAO {
     public Task<QuerySnapshot> getBuildItems() {
         return FirebaseFirestore.getInstance()
                 .collection("Builds")
+                .orderBy("modificationDate", Query.Direction.DESCENDING)
                 .get();
     }
 }

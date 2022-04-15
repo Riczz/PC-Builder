@@ -1,5 +1,6 @@
 package com.riczz.pcbuilder.model;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Exclude;
 import com.riczz.pcbuilder.R;
 
@@ -11,10 +12,10 @@ import java.util.List;
 public class BuildItem implements Serializable {
 
     private int totalPrice, totalWattage;
+    private Timestamp modificationDate;
     private String id, title, description;
     private Integer manufacturerIconId;
     private List<Integer> hardwareIds, iconIds;
-
     @Exclude
     private List<Hardware> hardwares;
 
@@ -29,7 +30,7 @@ public class BuildItem implements Serializable {
             this.description = this.description.concat(hardware.getName() + " ");
 
             if (hardware.getType().equals(HardwareType.CPU)) {
-                this.manufacturerIconId = ((CPU)hardware).getManufacturer().getIconResourceId();
+                this.manufacturerIconId = ((CPU) hardware).getManufacturer().getIconResourceId();
             }
         }
     }
@@ -48,7 +49,8 @@ public class BuildItem implements Serializable {
         this.hardwares = new ArrayList<>();
         this.hardwareIds = new ArrayList<>();
         this.iconIds = new ArrayList<>();
-        this.manufacturerIconId = R.drawable.ic_intel_logo;
+        this.manufacturerIconId = R.drawable.ic_no_cpu;
+        this.modificationDate = Timestamp.now();
     }
 
     public BuildItem() {
@@ -81,6 +83,10 @@ public class BuildItem implements Serializable {
     @Exclude
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Timestamp getModificationDate() {
+        return modificationDate;
     }
 
     public String getTitle() {

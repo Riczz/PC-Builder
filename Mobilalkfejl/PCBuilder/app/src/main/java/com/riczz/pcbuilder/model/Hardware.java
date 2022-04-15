@@ -38,10 +38,27 @@ public abstract class Hardware implements Serializable {
         return id;
     }
 
-    public HardwareType getType() { return type; }
-    public String getTypeName() { return type.name(); }
-    public String getName() { return name; }
-    public int getPrice() { return price; }
-    public int getWattage() { return wattage; }
-    public int getIconId() { return iconId; }
+    public HardwareType getType() {
+        return type;
+    }
+
+    public String getTypeName() {
+        return type.name();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public int getWattage() {
+        return wattage;
+    }
+
+    public int getIconId() {
+        return iconId;
+    }
 }

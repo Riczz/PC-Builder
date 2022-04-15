@@ -13,19 +13,23 @@ public enum HardwareType implements Serializable {
     PSU(PSU.class),
     CASE(Case.class);
 
-    @Exclude private Class hardwareClass;
+    @Exclude
+    private Class hardwareClass;
 
     HardwareType(Class hardwareClass) {
         this.hardwareClass = hardwareClass;
     }
 
-    HardwareType() {}
+    HardwareType() {
+    }
 
-    @Exclude public Class getHardwareClass() {
+    @Exclude
+    public Class getHardwareClass() {
         return hardwareClass;
     }
 
-    @Exclude public static Class getClass(String type) {
+    @Exclude
+    public static Class getClass(String type) {
         return valueOf(type).hardwareClass;
     }
 }

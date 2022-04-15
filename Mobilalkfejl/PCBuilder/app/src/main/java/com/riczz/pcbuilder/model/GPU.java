@@ -24,7 +24,7 @@ public class GPU extends Hardware implements Serializable {
         StringBuilder builder = new StringBuilder();
         return builder
                 .append("Desktop GPU\nVRAM: ").append(memory)
-                .append("\nFrequency: ").append(frequency)
+                .append(" GB\nFrequency: ").append(frequency)
                 .toString();
     }
 

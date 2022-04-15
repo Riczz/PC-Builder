@@ -2,10 +2,7 @@ package com.riczz.pcbuilder.model;
 
 import com.google.firebase.firestore.Exclude;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.Serializable;
-import java.util.Locale;
 
 public class Case extends Hardware implements Serializable {
 
@@ -13,7 +10,7 @@ public class Case extends Hardware implements Serializable {
 
     public Case(int id, String name, int price, int iconId, Motherboard.MotherboardType motherboardType) {
         super(id, HardwareType.CASE, name, price, 0, iconId);
-        this.motherboardType = motherboardType.name();
+        this.motherboardType = motherboardType.toString();
     }
 
     public Case() {
@@ -25,7 +22,8 @@ public class Case extends Hardware implements Serializable {
         StringBuilder builder = new StringBuilder();
         return builder
                 .append("Desktop case\nType: ")
-                .append(StringUtils.capitalize(motherboardType.toLowerCase(Locale.ROOT))).toString();
+                .append(motherboardType)
+                .toString();
     }
 
     public String getMotherboardType() {

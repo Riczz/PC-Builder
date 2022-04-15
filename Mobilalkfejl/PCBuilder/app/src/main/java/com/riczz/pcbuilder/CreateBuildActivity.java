@@ -95,6 +95,25 @@ public class CreateBuildActivity extends AppCompatActivity {
                 intent.putExtra("HW_FILTER", ((ComponentButton) view).getHardwareType());
                 startActivityForResult(intent, REQ_CODE);
             });
+
+            button.setOnLongClickListener(view -> {
+                if (((ComponentButton)view).getSelectedHardware() == null) {
+                    return true;
+                }
+                new AlertDialog.Builder(this)
+                        .setTitle("Remove component")
+                        .setMessage("Remove this component from build?")
+                        .setPositiveButton(android.R.string.yes, (dialog, i) -> {
+                            dialog.dismiss();
+                            ((ComponentButton)view).removeComponent();
+                            selectedComponents.remove(((ComponentButton) view).getHardwareType().name());
+                            setupView();
+                        })
+                        .setNegativeButton(android.R.string.no, (dialog, i) -> {
+                            dialog.cancel();
+                        }).show();
+                return true;
+            });
         }
     }
 

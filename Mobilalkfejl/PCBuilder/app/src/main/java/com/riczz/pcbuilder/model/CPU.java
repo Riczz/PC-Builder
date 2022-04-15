@@ -1,8 +1,10 @@
 package com.riczz.pcbuilder.model;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.firestore.Exclude;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.WordUtils;
 
 import java.io.Serializable;
 import java.util.Locale;
@@ -21,9 +23,9 @@ public class CPU extends Hardware implements Serializable {
         this.manufacturer = manufacturer;
         this.numberOfCores = numberOfCores;
         this.numberOfThreads = numberOfThreads;
-        this.architecture = architecture.name();
-        this.socket = socket.name();
-        this.memoryType = memoryType.name();
+        this.architecture = architecture.toString();
+        this.socket = socket.toString();
+        this.memoryType = memoryType.toString();
         this.frequency = frequency;
     }
 
@@ -38,7 +40,13 @@ public class CPU extends Hardware implements Serializable {
         COFFEE_LAKE,
         CASCADE_LAKE,
         COMET_LAKE,
-        ZEN_2, ZEN_3, ZEN_4
+        ZEN_2, ZEN_3, ZEN_4;
+
+        @NonNull
+        @Override
+        public String toString() {
+            return WordUtils.capitalize(super.toString().replace('_', ' ').toLowerCase(Locale.ROOT));
+        }
     }
 
     public enum Socket {
@@ -47,7 +55,13 @@ public class CPU extends Hardware implements Serializable {
         LGA_1200, AM_4,
         LGA_2011, FM_1,
         LGA_2066, FM_2,
-        LGA_1700, TR_4
+        LGA_1700, TR_4;
+
+        @NonNull
+        @Override
+        public String toString() {
+            return super.toString().replace('_', ' ');
+        }
     }
 
     @Exclude
@@ -55,11 +69,11 @@ public class CPU extends Hardware implements Serializable {
     public String getDescription() {
         StringBuilder builder = new StringBuilder();
         return builder
-                .append("Desktop CPU\nManufacturer: ").append(manufacturer.equals(Manufacturer.AMD) ? "AMD\n" : "Intel\n")
-                .append("Socket type: ").append(StringUtils.capitalize(socket.toLowerCase(Locale.ROOT)))
+                .append("Desktop CPU\nManufacturer: ").append(manufacturer)
+                .append("\nSocket type: ").append(socket)
                 .append("\nNo. cores: ").append(numberOfCores)
                 .append("\nNo. threads: ").append(numberOfThreads)
-                .append("\nArchitecture: ").append(StringUtils.capitalize(architecture.toLowerCase(Locale.ROOT)))
+                .append("\nArchitecture: ").append(architecture)
                 .toString();
     }
 
@@ -75,10 +89,6 @@ public class CPU extends Hardware implements Serializable {
         return architecture;
     }
 
-    public Manufacturer getManufacturer() {
-        return manufacturer;
-    }
-
     public String getSocket() {
         return socket;
     }
@@ -89,5 +99,9 @@ public class CPU extends Hardware implements Serializable {
 
     public String getFrequency() {
         return frequency;
+    }
+
+    public Manufacturer getManufacturer() {
+        return manufacturer;
     }
 }
