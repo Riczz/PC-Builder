@@ -21,7 +21,7 @@ public class ComponentButton extends MaterialCardView {
     private final Context context;
     private final TextView textView;
 
-    private String text;
+    private String text, initText;
     private HardwareType hardwareType;
     private Hardware selectedHardware;
 
@@ -32,6 +32,7 @@ public class ComponentButton extends MaterialCardView {
         this.context = context;
         this.textView = findViewById(R.id.componentTitle);
         this.selectedHardware = null;
+        this.initText = "";
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ComponentCardView);
         for (int i = 0; i < a.getIndexCount(); i++) {
@@ -39,6 +40,7 @@ public class ComponentButton extends MaterialCardView {
 
             switch (a.getIndex(i)) {
                 case R.styleable.ComponentCardView_text: {
+                    initText = attr;
                     setText(attr);
                     break;
                 }
@@ -58,6 +60,11 @@ public class ComponentButton extends MaterialCardView {
     public void setText(String text) {
         this.text = text;
         textView.setText(this.text);
+
+        if (initText.equals(text)) {
+            textView.setTextColor(ContextCompat.getColor(context, R.color.white));
+        }
+
         invalidate();
         requestLayout();
     }
@@ -80,5 +87,10 @@ public class ComponentButton extends MaterialCardView {
 
     public void setHardwareType(HardwareType hardwareType) {
         this.hardwareType = hardwareType;
+    }
+
+    public void removeComponent() {
+        this.selectedHardware = null;
+        setText(initText);
     }
 }

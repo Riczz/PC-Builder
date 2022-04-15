@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getName();
     private static final int RC_SIGN_IN = 0x14de32;
+    private static final int ADD_BUILD_REQ = 0x3534ef;
 
     private NavigationView navigationView;
     private FrameLayout fragmentContainer;
@@ -146,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                 dialog.dismiss();
                 Intent intent = new Intent(this, CreateBuildActivity.class);
                 intent.putExtra("BUILD_NAME", input.getText().toString().toLowerCase(Locale.ROOT).trim());
-                startActivity(intent);
+                startActivityForResult(intent, ADD_BUILD_REQ);
             }).setNegativeButton(android.R.string.cancel, (dialog, i) -> {
                 dialog.cancel();
             }).show();
@@ -185,6 +186,8 @@ public class MainActivity extends AppCompatActivity {
             } catch (ApiException e) {
                 Log.w(TAG, "Could not sign in!", e);
             }
+        } else if (requestCode == ADD_BUILD_REQ) {
+            switchFragment(new BuildsListFragment());
         }
     }
 
@@ -204,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void switchFragment(Fragment fragment) {
+    public void switchFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
