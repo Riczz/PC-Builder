@@ -1,1 +1,29 @@
-<p>register works!</p>
+<mat-card>
+  <mat-card-title>Create a new account</mat-card-title>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <form [formGroup]="registerForm" (ngSubmit)="submitForm()">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Username" formControlName="username" required/>
+        <mat-error *ngFor="let message of getError('username')">{{message}}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="E-mail address" formControlName="email" required/>
+        <mat-error *ngFor="let message of getError('email')">{{message}}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <input matInput type="password" placeholder="Password" formControlName="password" required/>
+        <mat-error *ngFor="let message of getError('password')">{{message}}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <input matInput type="password" placeholder="Password again" formControlName="passwordAgain" required/>
+        <mat-error *ngFor="let message of getError('passwordAgain')">{{message}}</mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="accent" type="submit">Register</button>
+      <br/>
+      <mat-card-title>Already have an account?</mat-card-title>
+      <mat-divider></mat-divider>
+      <button mat-stroked-button color="primary" [routerLink]="'/accounts/login'">Sign in</button>
+    </form>
+  </mat-card-content>
+</mat-card>

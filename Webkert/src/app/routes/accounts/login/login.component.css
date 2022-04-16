@@ -1,3 +1,19 @@
+mat-card {
+  margin: 0 auto;
+}
 
+mat-form-field {
+  margin: 0 auto;
+  width: 80%;
+}
+
+form > button {
+  display: block;
+  width: 80%;
+}
+
+button .mat-stroked-button {
+  color: white;
+}
 
 /*# sourceMappingURL=login.component.css.map */

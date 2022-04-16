@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "pcbuilder-web": {
+      "hosting": {
+        "Webkert": [
+          "pcbuilder-web"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "pcbuilder-web"
+  }
+}

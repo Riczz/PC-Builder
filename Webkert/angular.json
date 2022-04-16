@@ -7,6 +7,7 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
+          "style": "scss",
           "strict": true
         }
       },
@@ -99,6 +100,16 @@
               "src/styles.css"
             ],
             "scripts": []
+          }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "Webkert:build:production",
+            "firebaseProject": "pcbuilder-web",
+            "firebaseHostingSite": "pcbuilder-web"
           }
         }
       }
