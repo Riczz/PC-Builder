@@ -17,12 +17,13 @@ import {getFirestore, provideFirestore} from '@angular/fire/firestore';
 import {getStorage, provideStorage} from '@angular/fire/storage';
 import {environment} from '../environments/environment';
 import {DBConfig, NgxIndexedDBModule} from 'ngx-indexed-db';
+import {RouteFormatPipe} from './shared/pipes/route-format.pipe';
 
 const dbConfig: DBConfig = {
   name: 'PCBuilder',
-  version: 1,
+  version: 14,
   objectStoresMeta: [{
-    store: 'builds',
+    store: 'build',
     storeConfig: { keyPath: 'id', autoIncrement: true },
     storeSchema: [
       {name: 'build_name', keypath: 'build_name', options: { unique: false }},
@@ -31,12 +32,23 @@ const dbConfig: DBConfig = {
       {name: 'total_wattage', keypath: 'total_wattage', options: { unique: false }},
       {name: 'modify_time', keypath: 'modify_time', options: { unique: false }},
     ]
-  }]
+  }, {
+    store: 'components',
+    storeConfig: { keyPath: 'id', autoIncrement: true },
+    storeSchema: [
+      {name: 'component', keypath: 'component', options: { unique: false }},
+      {name: 'selection', keypath: 'selection', options: { unique: false}},
+      {name: 'price', keypath: 'price', options: { unique: false}},
+      {name: 'wattage', keypath: 'wattage', options: { unique: false}},
+      {name: 'modify_time', keypath: 'modify_time', options: { unique: false}},
+    ]
+  }],
 };
 
 @NgModule({
   declarations: [
     AppComponent,
+    RouteFormatPipe,
   ],
   imports: [
     BrowserModule,
@@ -53,9 +65,12 @@ const dbConfig: DBConfig = {
     NgxIndexedDBModule.forRoot(dbConfig),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    provideStorage(() => getStorage())
+    provideStorage(() => getStorage()),
   ],
   providers: [],
+  exports: [
+    RouteFormatPipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

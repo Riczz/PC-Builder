@@ -3,9 +3,13 @@
     <mat-toolbar-row id="nav_top">
       <a [routerLink]="'/'"><span>PC Builder</span></a>
       <span class="spacer"></span>
-      <button mat-flat-button color="accent" [routerLink]="'/accounts/login'">
+      <button mat-flat-button color="accent" *ngIf="!user" [routerLink]="'/accounts/login'">
         <mat-icon>account_circle</mat-icon>
         Login
+      </button>
+      <button mat-flat-button color="accent" *ngIf="user" (click)="logout()">
+        <mat-icon>account_circle</mat-icon>
+        Logout
       </button>
     </mat-toolbar-row>
     <mat-toolbar-row id="nav_bottom">

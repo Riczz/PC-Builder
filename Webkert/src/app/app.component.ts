@@ -2,6 +2,8 @@ import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {Component, OnInit} from '@angular/core';
 import {filter, map} from 'rxjs';
 import {Title} from '@angular/platform-browser';
+import {AuthService} from './shared/services/auth.service';
+import * as firebase from 'firebase/compat';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +14,12 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private titleService: Title,
-  ) {}
+    private authService: AuthService
+  ) {
+  }
 
   title = '';
+  user?: firebase.default.User | null;
 
   ngOnInit(): void {
     this.titleService.setTitle('PC Builder');
@@ -40,5 +45,15 @@ export class AppComponent implements OnInit {
           this.title = `${title}`;
         }
       });
+    this.authService.isAuthenticated()
+      .subscribe({
+        next: user => {
+          this.user = user;
+        }, error: error => console.error(error)
+      });
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 }

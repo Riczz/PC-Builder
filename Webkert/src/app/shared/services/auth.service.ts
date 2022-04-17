@@ -50,6 +50,10 @@ export class AuthService {
     return this.afs.collection('user_ids', ref => ref.where('username', '==', username).limit(1)).get();
   }
 
+  logout() {
+    this.auth.signOut().catch(console.error);
+  }
+
   isAuthenticated() {
     return this.auth.user;
   }

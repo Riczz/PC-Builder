@@ -4,3 +4,4 @@ export interface Hardware {
   price: number;
   wattage: number;
 }
+
