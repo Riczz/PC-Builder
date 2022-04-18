@@ -8,7 +8,7 @@ const routes: Routes = [
     loadChildren: () => import('./routes/index/index.module').then(m => m.IndexModule)
   },
   {
-    path: 'products',
+    path: 'products/:component',
     data: {title: 'Products Listing'},
     loadChildren: () => import('./routes/product/product.module').then(m => m.ProductModule)
   },
