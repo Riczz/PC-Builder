@@ -6,6 +6,7 @@ import {BuildTableDataSource, BuildTableItem} from './build-table-datasource';
 import {RouteFormatPipe} from '../../shared/pipes/route-format.pipe';
 import {NgxIndexedDBService} from 'ngx-indexed-db';
 import {timeout} from 'rxjs';
+import {ProductType} from '../../shared/model/Product';
 
 @Component({
   selector: 'app-build-table',
@@ -35,12 +36,10 @@ export class BuildTableComponent implements AfterViewInit {
       console.log('NEW VALUE');
     });
 
-    this.dbService.getAll<BuildTableItem>('components').subscribe(value => {
-      this.dataSource.data.forEach((item, index) => {
-        if (item.component === value[0].component) {
-          this.dataSource.data[index] = value[0];
-        }
-      });
+    this.dbService.getAll<BuildTableItem>('components').subscribe(components => {
+      for (const component of components) {
+        this.dataSource.setComponent(component);
+      }
       this.refresh();
     });
 
@@ -50,11 +49,19 @@ export class BuildTableComponent implements AfterViewInit {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
 
-  addComponent(component: string): void {
+  addNewComponent(component: string): void {
     this.routeEvent.emit(this.routeFormat.transform(`/products/${component}`));
   }
 
-  removeComponent(component: string): void {
-
+  removeComponent(buildTableItem: BuildTableItem): void {
+    console.log(buildTableItem.component);
+    if (this.dataSource.removeComponent(buildTableItem.component)) {
+      console.log(buildTableItem.selection as string);
+      this.dbService.delete('components', buildTableItem.selection as string).subscribe(value => {
+        console.log('ASDASDSADASD');
+        console.log(value);
+        this.refresh();
+      });
+    }
   }
 }

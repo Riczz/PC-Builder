@@ -3,6 +3,7 @@ import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {emailPattern} from '../regex';
 import {firstValueFrom} from 'rxjs';
+import {openDatabase} from 'ngx-indexed-db/lib/ngx-indexed-db';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class AuthService {
     }
 
     // Login with username
-    const observable$ = this.getEmailForUsername(username);
+    const observable$ = this.getUserByUsername(username);
     await firstValueFrom(observable$).then(value => {
       if (value.empty) {
         throw Error('No e-mail found for username.');
@@ -46,15 +47,19 @@ export class AuthService {
     });
   }
 
-  private getEmailForUsername(username: string) {
-    return this.afs.collection('user_ids', ref => ref.where('username', '==', username).limit(1)).get();
+  public getUserByEmail(email: string) {
+    return this.afs.collection('user_ids', ref => ref.where('email', '==', email).limit(1)).get();
   }
 
-  logout() {
-    this.auth.signOut().catch(console.error);
+  public getUserByUsername(username: string) {
+    return this.afs.collection('user_ids', ref => ref.where('username', '==', username).limit(1)).get();
   }
 
   isAuthenticated() {
     return this.auth.user;
+  }
+
+  logout() {
+    this.auth.signOut().catch(console.error);
   }
 }

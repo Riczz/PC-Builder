@@ -1,9 +1,10 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
-import {Product, ProductType} from "../../shared/model/Product";
-import {Hardware} from "../../shared/model/Hardware";
-import {AngularFirestore} from "@angular/fire/compat/firestore";
-import {MatTable} from "@angular/material/table";
-import {BuildTableItem} from "../build-table/build-table-datasource";
+import {Product, ProductType} from '../../shared/model/Product';
+import {Hardware} from '../../shared/model/Hardware';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
+import {MatTable} from '@angular/material/table';
+import {BuildTableItem} from '../build-table/build-table-datasource';
+import {NgxIndexedDBService} from 'ngx-indexed-db';
 
 @Component({
   selector: 'app-product-table',
@@ -12,43 +13,54 @@ import {BuildTableItem} from "../build-table/build-table-datasource";
 })
 export class ProductTableComponent implements OnInit, OnChanges {
 
-  @Input() filterType: string = '';
+  @Input() filterType = '';
   @ViewChild(MatTable) table!: MatTable<Product<Hardware>>;
 
   dataSource: Product<Hardware>[] = [];
   headers: string[] = [];
   headerTitles: string[] = [];
+  displayedColumns: string[] = [];
 
   headerMap: object = {
     name: 'Name',
+    sizeFormat: 'Size format',
+    architecture: 'Architecture',
+    socket: 'Socket type',
+    memoryType: 'Memory type',
+    kit: 'Memory kit',
+    frequency: 'Frequency',
+    latency: 'Latency',
     cores: 'No. cores',
     threads: 'No. threads',
-    frequency: 'Frequency',
-    memoryType: 'Memory type',
-    socket: 'Socket type'
+    passive: 'Passive',
+    memory: 'Memory (GB)',
+    maxMemory: 'Maximum memory (GB)',
+    capacity: 'Capacity',
+    motherboard_size: 'Motherboard size',
+    modularity: 'Modularity'
   };
 
-  constructor(private afs: AngularFirestore) {
+  constructor(private afs: AngularFirestore, private dbService: NgxIndexedDBService) {
   }
 
   ngOnInit(): void {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('CHANGE');
     this.afs.collection<Product<Hardware>>('products').valueChanges().subscribe(values => {
       if (values.length === 0) {
         return;
       }
 
       console.log('PRODUCTS');
-
       console.log(values.filter(value => value.type === this.filterType));
-      this.dataSource = values.filter(value => value.type === this.filterType);
+
       this.headers = [];
       this.headerTitles = [];
+      this.dataSource = values.filter(value => value.type === this.filterType);
 
       const keys = Object.keys(this.dataSource[0]?.hardware);
+
       Object.keys(this.headerMap).forEach((value) => {
         if (keys.includes(value)) {
           this.headers.push(value);
@@ -56,7 +68,10 @@ export class ProductTableComponent implements OnInit, OnChanges {
           this.headerTitles.push(this.headerMap[value]);
         }
         console.log(value);
-      })
+      });
+
+      this.displayedColumns = [...this.headers];
+      this.displayedColumns.push('actions');
 
       this.table.dataSource = this.dataSource;
 
@@ -66,10 +81,22 @@ export class ProductTableComponent implements OnInit, OnChanges {
       console.log(this.headers);
       console.log('HEADER TITLES');
       console.log(this.headerTitles);
-      console.log(this.table.dataSource)
+      console.log(this.table.dataSource);
       this.table.renderRows();
     });
-    console.log(changes['filterType'].currentValue);
   }
 
+  addToBuild(product: Product<Hardware>): void {
+    this.dbService.add('components', {
+      id: product.hardware.name,
+      component: product.type,
+      selection: product.hardware.name,
+      price: product.hardware.price,
+      wattage: product.hardware.wattage,
+      modify_time: Date.now()
+    }).subscribe(value => {
+      console.log('Product added.');
+      console.log(value);
+    }, error => console.error(error));
+  }
 }

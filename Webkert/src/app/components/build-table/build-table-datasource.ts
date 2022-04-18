@@ -3,6 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
+import {ProductType} from '../../shared/model/Product';
 
 // TODO: Replace this with your own data model type
 export interface BuildTableItem {
@@ -24,6 +25,20 @@ const DATA: BuildTableItem[] = [
   {component: 'Power Supply'},
 ];
 
+const INITIAL_DATA: BuildTableItem[] = [
+  {component: 'CPU'},
+  {component: 'CPU Cooler'},
+  {component: 'Motherboard'},
+  {component: 'Memory'},
+  {component: 'Video Card'},
+  {component: 'Case'},
+  {component: 'Power Supply'},
+];
+
+const DATA_TYPES: ProductType[] = [
+  'cpu', 'cpu-cooler', 'motherboard', 'memory', 'video-card', 'case', 'power-supply'
+];
+
 /**
  * Data source for the BuildTable view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
@@ -31,12 +46,57 @@ const DATA: BuildTableItem[] = [
  */
 export class BuildTableDataSource extends DataSource<BuildTableItem> {
   data: BuildTableItem[] = DATA;
+  _dataTypes: ProductType[] = DATA_TYPES;
   paginator: MatPaginator | undefined;
   sort: MatSort | undefined;
 
   constructor() {
     super();
   }
+
+  public setComponent(component: BuildTableItem): void {
+    const position = this.getComponentPosition(component.component as ProductType);
+    if (position === -1) {
+      return;
+    }
+
+    this.data[position].selection = component.selection;
+    this.data[position].price = component.price;
+    this.data[position].wattage = component.wattage;
+    this.data[position].modify_time = component.modify_time;
+  }
+
+  public removeComponent(component: string): boolean {
+    console.log('INITIAL DATA:');
+    console.log(INITIAL_DATA);
+    let position = -1;
+    this.data.forEach((value, index) => {
+      if (value.component == component) {
+        position = index;
+      }
+    });
+    if (position === -1) {
+      return false;
+    }
+    console.log('POSITION:');
+    console.log(position);
+    console.log(component);
+    console.log(this.data);
+
+    this.data[position] = {...INITIAL_DATA[position]};
+    console.log(this.data);
+
+    return true;
+  }
+
+  private getComponentPosition(component: ProductType): number {
+    if (!DATA_TYPES.includes(component)) {
+      return -1;
+    }
+
+    return DATA_TYPES.indexOf(component);
+  }
+
 
   /**
    * Connect this data source to the table. The table will only update when

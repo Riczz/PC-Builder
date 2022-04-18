@@ -2,8 +2,8 @@ import {Hardware} from './Hardware';
 
 export interface RAM extends Hardware {
   capacity: number;
-  frequency: number;
-  type: RAMType;
+  frequency: string;
+  memoryType: RAMType;
   latency: RAMLatency;
   kit: RAMKit;
 }

@@ -4,6 +4,7 @@ import {filter, map} from 'rxjs';
 import {Title} from '@angular/platform-browser';
 import {AuthService} from './shared/services/auth.service';
 import * as firebase from 'firebase/compat';
+import {MatSidenav} from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-root',
@@ -55,5 +56,9 @@ export class AppComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
+  }
+
+  onToggleSidenav(sidenav: MatSidenav): void {
+    sidenav.toggle().catch(console.error);
   }
 }

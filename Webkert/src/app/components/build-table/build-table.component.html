@@ -9,7 +9,7 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Selection</th>
       <td mat-cell *matCellDef="let row">
         <span *ngIf="row.selection">{{row.selection}}</span>
-        <button mat-flat-button *ngIf="!row.selection" (click)="addComponent(row.component)" color="accent">
+        <button mat-flat-button *ngIf="!row.selection" (click)="addNewComponent(row.component)" color="accent">
           <mat-icon>add</mat-icon>Select {{row.component}}</button>
       </td>
     </ng-container>
@@ -32,7 +32,7 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
       <td mat-cell *matCellDef="let row">
-        <button mat-icon-button *ngIf="row.selection" color="accent">
+        <button mat-icon-button *ngIf="row.selection" color="accent" (click)="removeComponent(row)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>

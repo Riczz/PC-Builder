@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {AngularFirestore} from "@angular/fire/compat/firestore";
-import {ProductType} from "../../shared/model/Product";
+import {ActivatedRoute} from '@angular/router';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
+import {ProductType} from '../../shared/model/Product';
 
 @Component({
   selector: 'app-product',
@@ -10,7 +10,7 @@ import {ProductType} from "../../shared/model/Product";
 })
 export class ProductComponent implements OnInit {
 
-  filterType : string = '';
+  filterType  = '';
 
   constructor(private route : ActivatedRoute, private afs : AngularFirestore) {
   }

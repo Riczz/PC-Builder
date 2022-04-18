@@ -1,23 +1,31 @@
 <mat-sidenav-container fullscreen>
-  <mat-toolbar color="primary">
-    <mat-toolbar-row id="nav_top">
-      <a [routerLink]="'/'"><span>PC Builder</span></a>
-      <span class="spacer"></span>
-      <button mat-flat-button color="accent" *ngIf="!user" [routerLink]="'/accounts/login'">
-        <mat-icon>account_circle</mat-icon>
-        Login
-      </button>
-      <button mat-flat-button color="accent" *ngIf="user" (click)="logout()">
-        <mat-icon>logout</mat-icon>
-        Logout
-      </button>
-    </mat-toolbar-row>
-    <mat-toolbar-row id="nav_bottom">
-      <div id="title">{{title}}</div>
-    </mat-toolbar-row>
-  </mat-toolbar>
-  <router-outlet></router-outlet>
-  <footer>
-    <h1>asd</h1>
-  </footer>
+  <mat-sidenav #sidenav>
+    <app-menu></app-menu>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <mat-toolbar-row id="nav_top">
+        <button mat-icon-button *ngIf="user" (click)="onToggleSidenav(sidenav)">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <a [routerLink]="'/'"><span>PC Builder</span></a>
+        <span class="spacer"></span>
+        <button mat-flat-button color="accent" *ngIf="!user" [routerLink]="'/accounts/login'">
+          <mat-icon>account_circle</mat-icon>
+          Login
+        </button>
+        <button mat-flat-button color="accent" *ngIf="user" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          Logout
+        </button>
+      </mat-toolbar-row>
+      <mat-toolbar-row id="nav_bottom">
+        <div id="title">{{title}}</div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+    <footer>
+      <h1>asd</h1>
+    </footer>
+  </mat-sidenav-content>
 </mat-sidenav-container>

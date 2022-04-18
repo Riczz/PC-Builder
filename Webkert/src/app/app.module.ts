@@ -18,29 +18,21 @@ import {getStorage, provideStorage} from '@angular/fire/storage';
 import {environment} from '../environments/environment';
 import {DBConfig, NgxIndexedDBModule} from 'ngx-indexed-db';
 import {RouteFormatPipe} from './shared/pipes/route-format.pipe';
+import { MenuComponent } from './components/menu/menu.component';
+import {MatListModule} from '@angular/material/list';
 
 const dbConfig: DBConfig = {
   name: 'PCBuilder',
-  version: 14,
+  version: 26,
   objectStoresMeta: [{
-    store: 'build',
-    storeConfig: { keyPath: 'id', autoIncrement: true },
-    storeSchema: [
-      {name: 'build_name', keypath: 'build_name', options: { unique: false }},
-      {name: 'products', keypath: 'products', options: { unique: false }},
-      {name: 'total_price', keypath: 'total_price', options: { unique: false }},
-      {name: 'total_wattage', keypath: 'total_wattage', options: { unique: false }},
-      {name: 'modify_time', keypath: 'modify_time', options: { unique: false }},
-    ]
-  }, {
     store: 'components',
-    storeConfig: { keyPath: 'id', autoIncrement: true },
+    storeConfig: {keyPath: 'id', autoIncrement: true},
     storeSchema: [
-      {name: 'component', keypath: 'component', options: { unique: false }},
-      {name: 'selection', keypath: 'selection', options: { unique: false}},
-      {name: 'price', keypath: 'price', options: { unique: false}},
-      {name: 'wattage', keypath: 'wattage', options: { unique: false}},
-      {name: 'modify_time', keypath: 'modify_time', options: { unique: false}},
+      {name: 'component', keypath: 'component', options: {unique: false}},
+      {name: 'selection', keypath: 'selection', options: {unique: false}},
+      {name: 'price', keypath: 'price', options: {unique: false}},
+      {name: 'wattage', keypath: 'wattage', options: {unique: false}},
+      {name: 'modify_time', keypath: 'modify_time', options: {unique: false}},
     ]
   }],
 };
@@ -49,6 +41,7 @@ const dbConfig: DBConfig = {
   declarations: [
     AppComponent,
     RouteFormatPipe,
+    MenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,6 +59,7 @@ const dbConfig: DBConfig = {
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
+    MatListModule,
   ],
   providers: [],
   exports: [
