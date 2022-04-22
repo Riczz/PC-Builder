@@ -1,15 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {NgxIndexedDBService, ObjectStoreMeta} from 'ngx-indexed-db';
+import {NgxIndexedDBService} from 'ngx-indexed-db';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {RouteFormatPipe} from '../../shared/pipes/route-format.pipe';
-import {Product} from '../../shared/model/Product';
-import {CPU} from '../../shared/model/CPU';
-import {Build} from '../../shared/model/Build';
-import {Cooler} from '../../shared/model/Cooler';
-import {Hardware} from '../../shared/model/Hardware';
-import {RAMType} from '../../shared/model/RAM';
-import {MotherboardSize} from '../../shared/model/Motherboard';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-index',
@@ -22,10 +16,15 @@ export class IndexComponent implements OnInit {
   constructor(
     private router: Router,
     private afs: AngularFirestore,
-    private dbService: NgxIndexedDBService) {
+    private dbService: NgxIndexedDBService,
+    private snackbar: MatSnackBar) {
   }
 
   ngOnInit(): void {
+  }
+
+  openSnackbar(message: string, action?: string): void {
+    this.snackbar.open(message, action, {verticalPosition: 'bottom', duration: 5000});
   }
 
   route(path: string): void {
@@ -75,22 +74,22 @@ export class IndexComponent implements OnInit {
       this.afs.collection('products').add(value).then(() => console.log(`${value.hardware.name} added.`));
     });
 
-    this.dbService.deleteObjectStore('build');
-    this.dbService.deleteObjectStore('builds');
-    this.dbService.deleteObjectStore('components');
-
-    const storeSchema: ObjectStoreMeta = {
-      store: 'components',
-      storeConfig: { keyPath: 'id', autoIncrement: true },
-      storeSchema: [
-        { name: 'component', keypath: 'component', options: { unique: false } },
-        { name: 'selection', keypath: 'selection', options: { unique: false } },
-        { name: 'price', keypath: 'price', options: { unique: false } },
-        { name: 'wattage', keypath: 'wattage', options: { unique: false } },
-        { name: 'modify_time', keypath: 'modify_time', options: { unique: false } },
-      ],
-    };
-    this.dbService.createObjectStore(storeSchema);
+    // this.dbService.deleteObjectStore('build');
+    // this.dbService.deleteObjectStore('builds');
+    // this.dbService.deleteObjectStore('components');
+    //
+    // const storeSchema: ObjectStoreMeta = {
+    //   store: 'components',
+    //   storeConfig: { keyPath: 'id', autoIncrement: true },
+    //   storeSchema: [
+    //     { name: 'component', keypath: 'component', options: { unique: false } },
+    //     { name: 'selection', keypath: 'selection', options: { unique: false } },
+    //     { name: 'price', keypath: 'price', options: { unique: false } },
+    //     { name: 'wattage', keypath: 'wattage', options: { unique: false } },
+    //     { name: 'modify_time', keypath: 'modify_time', options: { unique: false } },
+    //   ],
+    // };
+    // this.dbService.createObjectStore(storeSchema);
 
   }
 }

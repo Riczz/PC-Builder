@@ -1,19 +1,20 @@
-import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {BuildTableDataSource, BuildTableItem} from './build-table-datasource';
 import {RouteFormatPipe} from '../../shared/pipes/route-format.pipe';
 import {NgxIndexedDBService} from 'ngx-indexed-db';
-import {timeout} from 'rxjs';
-import {ProductType} from '../../shared/model/Product';
+import {AuthService} from '../../shared/services/auth.service';
+import * as firebase from 'firebase/compat';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-build-table',
   templateUrl: './build-table.component.html',
   styleUrls: ['./build-table.component.css']
 })
-export class BuildTableComponent implements AfterViewInit {
+export class BuildTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<BuildTableItem>;
@@ -22,19 +23,30 @@ export class BuildTableComponent implements AfterViewInit {
   displayedColumns = ['component', 'selection', 'price', 'wattage', 'actions'];
 
   @Output() routeEvent = new EventEmitter<string>();
+  @Output() snackbarMessage = new EventEmitter<{ msg: string, action?: string }>();
+  @Input()  allowDelete = true;
+  user?: firebase.default.User | null;
 
-  constructor(private dbService: NgxIndexedDBService, private routeFormat: RouteFormatPipe) {
+  constructor(
+    private dbService: NgxIndexedDBService,
+    private routeFormat: RouteFormatPipe,
+    private authService: AuthService,
+    private afs: AngularFirestore) {
     this.dataSource = new BuildTableDataSource();
+  }
+
+  ngOnInit(): void {
+    this.authService.isAuthenticated()
+      .subscribe({
+        next: user => this.user = user,
+        error: error => console.error(error)
+      });
   }
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
-
-    this.dataSource.connect().subscribe(value => {
-      console.log('NEW VALUE');
-    });
 
     this.dbService.getAll<BuildTableItem>('components').subscribe(components => {
       for (const component of components) {
@@ -63,5 +75,19 @@ export class BuildTableComponent implements AfterViewInit {
         this.refresh();
       });
     }
+  }
+
+  saveBuild(): void {
+    if (!this.user) {
+      this.snackbarMessage.emit({msg: 'You have to be logged in in order to save this build.', action: 'Dismiss'});
+      return;
+    }
+
+    if (this.dataSource.data.filter(value => value.selection).length === 0) {
+      this.snackbarMessage.emit({msg: 'You must select at least one component for the build.', action: 'Dismiss'});
+    }
+
+    this.afs.collection('builds')
+    this.routeEvent.emit('/');
   }
 }

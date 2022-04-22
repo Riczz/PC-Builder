@@ -23,6 +23,10 @@ const routes: Routes = [
     loadChildren: () => import('./routes/accounts/login/login.module').then(m => m.LoginModule)
   },
   {
+    path: 'builds',
+    data: {title: 'My builds'},
+    loadChildren: () => import('./routes/builds/builds.module').then(m => m.BuildsModule)},
+  {
     path: '**',
     data: {title: '404 - Page Not Found'},
     loadChildren: () => import('./routes/not-found/not-found.module').then(m => m.NotFoundModule)

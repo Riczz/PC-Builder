@@ -25,10 +25,9 @@ export class AuthService {
     }
 
     // Login with username
-    const observable$ = this.getUserByUsername(username);
-    await firstValueFrom(observable$).then(value => {
+    await firstValueFrom(this.getUserByUsername(username)).then(value => {
       if (value.empty) {
-        throw Error('No e-mail found for username.');
+        throw Error('No user found with this username.');
       }
       username = value.docs[0].get('email');
     });
@@ -39,6 +38,18 @@ export class AuthService {
 
 
   async register(username: string, email: string, password: string): Promise<void> {
+    await firstValueFrom(this.getUserByUsername(username)).then(value => {
+      if (!value.empty) {
+        throw Error('This username was already taken.');
+      }
+    });
+
+    await firstValueFrom(this.getUserByEmail(email)).then(value => {
+      if (!value.empty) {
+        throw Error('This e-mail address is already in use.');
+      }
+    });
+
     await this.auth.createUserWithEmailAndPassword(email, password).then(() => {
       this.afs.collection('user_ids').add({
         username: username,

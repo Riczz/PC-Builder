@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AuthService} from '../../shared/services/auth.service';
+import * as firebase from 'firebase/compat';
 
 @Component({
   selector: 'app-menu',
@@ -8,7 +9,11 @@ import {AuthService} from '../../shared/services/auth.service';
 })
 export class MenuComponent implements OnInit {
 
+  @Input() user?: firebase.default.User | null;
   username = '';
+
+  @Output()
+    menuSelect = new EventEmitter<void>();
 
   constructor(private authService: AuthService) { }
 
@@ -22,4 +27,7 @@ export class MenuComponent implements OnInit {
     });
   }
 
+  onSelect() {
+    this.menuSelect.emit();
+  }
 }

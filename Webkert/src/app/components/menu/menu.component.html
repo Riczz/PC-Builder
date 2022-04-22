@@ -1,7 +1,13 @@
 <mat-nav-list>
-  <div id="username_label">Welcome back {{username}}!</div>
-  <a mat-list-item [routerLink]="'/'">
-    <mat-icon>computer</mat-icon>
-    <span>&nbsp;My Builds</span>
+  <div *ngIf="user" id="username_label">Welcome back {{username}}!</div>
+  <a mat-list-item [routerLink]="'/'" (click)="onSelect()">
+    <mat-icon>home</mat-icon>
+    <span>System builder</span>
   </a>
+  <ng-container *ngIf="user">
+  <a mat-list-item [routerLink]="'/builds'" (click)="onSelect()">
+    <mat-icon>computer</mat-icon>
+    <span>My Builds</span>
+  </a>
+  </ng-container>
 </mat-nav-list>

@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
 import {ProductType} from '../../shared/model/Product';
 
-// TODO: Replace this with your own data model type
 export interface BuildTableItem {
   component: string;
   selection?: string;
@@ -14,7 +13,6 @@ export interface BuildTableItem {
   modify_time?: Date;
 }
 
-// TODO: replace this with real data from your application
 const DATA: BuildTableItem[] = [
   {component: 'CPU'},
   {component: 'CPU Cooler'},
@@ -67,8 +65,6 @@ export class BuildTableDataSource extends DataSource<BuildTableItem> {
   }
 
   public removeComponent(component: string): boolean {
-    console.log('INITIAL DATA:');
-    console.log(INITIAL_DATA);
     let position = -1;
     this.data.forEach((value, index) => {
       if (value.component == component) {
@@ -84,7 +80,6 @@ export class BuildTableDataSource extends DataSource<BuildTableItem> {
     console.log(this.data);
 
     this.data[position] = {...INITIAL_DATA[position]};
-    console.log(this.data);
 
     return true;
   }

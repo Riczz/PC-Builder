@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { RegisterRoutingModule } from './register-routing.module';
-import { RegisterComponent } from './register.component';
+import {RegisterComponent, RegisterErrorDialog} from './register.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -10,11 +10,14 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {LoadingSpinnerModule} from '../../../modules/loading-spinner/loading-spinner.module';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
   declarations: [
-    RegisterComponent
+    RegisterComponent,
+    RegisterErrorDialog
   ],
   imports: [
     CommonModule,
@@ -25,7 +28,9 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatInputModule,
     MatButtonModule,
     ReactiveFormsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    LoadingSpinnerModule,
+    MatDialogModule
   ]
 })
 export class RegisterModule { }

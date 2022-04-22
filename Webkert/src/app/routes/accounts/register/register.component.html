@@ -1,3 +1,4 @@
+<app-loading-spinner *ngIf="loading"></app-loading-spinner>
 <mat-card>
   <mat-card-title>Create a new account</mat-card-title>
   <mat-divider></mat-divider>
@@ -20,10 +21,11 @@
         <mat-error *ngFor="let message of getError('passwordAgain')">{{message}}</mat-error>
       </mat-form-field>
       <button mat-raised-button color="accent" type="submit">Register</button>
-      <br/>
+    </form>
+    <div>
       <mat-card-title>Already have an account?</mat-card-title>
       <mat-divider></mat-divider>
       <button mat-stroked-button color="primary" [routerLink]="'/accounts/login'">Sign in</button>
-    </form>
+    </div>
   </mat-card-content>
 </mat-card>

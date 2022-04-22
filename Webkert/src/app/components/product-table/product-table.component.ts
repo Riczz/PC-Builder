@@ -1,9 +1,8 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
-import {Product, ProductType} from '../../shared/model/Product';
+import {Component, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
+import {Product} from '../../shared/model/Product';
 import {Hardware} from '../../shared/model/Hardware';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {MatTable} from '@angular/material/table';
-import {BuildTableItem} from '../build-table/build-table-datasource';
 import {NgxIndexedDBService} from 'ngx-indexed-db';
 
 @Component({
@@ -11,7 +10,7 @@ import {NgxIndexedDBService} from 'ngx-indexed-db';
   templateUrl: './product-table.component.html',
   styleUrls: ['./product-table.component.css']
 })
-export class ProductTableComponent implements OnInit, OnChanges {
+export class ProductTableComponent implements OnChanges {
 
   @Input() filterType = '';
   @ViewChild(MatTable) table!: MatTable<Product<Hardware>>;
@@ -40,10 +39,9 @@ export class ProductTableComponent implements OnInit, OnChanges {
     modularity: 'Modularity'
   };
 
-  constructor(private afs: AngularFirestore, private dbService: NgxIndexedDBService) {
-  }
-
-  ngOnInit(): void {
+  constructor(
+    private afs: AngularFirestore,
+    private dbService: NgxIndexedDBService) {
   }
 
   ngOnChanges(changes: SimpleChanges) {

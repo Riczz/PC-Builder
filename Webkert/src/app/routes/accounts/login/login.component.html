@@ -1,3 +1,4 @@
+<app-loading-spinner *ngIf="loading"></app-loading-spinner>
 <mat-card>
   <mat-card-title>Create a new account</mat-card-title>
   <mat-divider></mat-divider>
@@ -13,9 +14,11 @@
       </mat-form-field>
       <button mat-raised-button color="accent" type="submit">Login</button>
       <br/>
-      <mat-card-title>Not a member?</mat-card-title>
-      <mat-divider></mat-divider>
-      <button mat-stroked-button color="primary" [routerLink]="'/accounts/register'">Register</button>
     </form>
+    <mat-card-title>Not a member?</mat-card-title>
+    <mat-divider></mat-divider>
+    <div>
+      <button mat-stroked-button color="primary" [routerLink]="'/accounts/register'">Register</button>
+    </div>
   </mat-card-content>
 </mat-card>

@@ -20,6 +20,8 @@ import {DBConfig, NgxIndexedDBModule} from 'ngx-indexed-db';
 import {RouteFormatPipe} from './shared/pipes/route-format.pipe';
 import { MenuComponent } from './components/menu/menu.component';
 import {MatListModule} from '@angular/material/list';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {LoadingSpinnerModule} from './modules/loading-spinner/loading-spinner.module';
 
 const dbConfig: DBConfig = {
   name: 'PCBuilder',
@@ -54,16 +56,18 @@ const dbConfig: DBConfig = {
     MatIconModule,
     MatSidenavModule,
     MatTableModule,
+    MatListModule,
+    MatProgressSpinnerModule,
+    LoadingSpinnerModule,
     AngularFireModule.initializeApp(environment.firebase),
     NgxIndexedDBModule.forRoot(dbConfig),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
-    MatListModule,
   ],
   providers: [],
   exports: [
-    RouteFormatPipe
+    RouteFormatPipe,
   ],
   bootstrap: [AppComponent]
 })

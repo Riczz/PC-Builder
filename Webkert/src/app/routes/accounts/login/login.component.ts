@@ -1,8 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import {LoginForm} from '../../../shared/interfaces/LoginForm';
 import {AuthService} from '../../../shared/services/auth.service';
 import {Router} from '@angular/router';
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login',
@@ -11,12 +12,15 @@ import {Router} from '@angular/router';
 })
 export class LoginComponent {
 
+  loading = false;
+
   loginForm = this.createForm({
     email: '',
     password: '',
   });
 
   constructor(
+    private dialog: MatDialog,
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router) {
@@ -26,11 +30,13 @@ export class LoginComponent {
     this.loginForm.markAllAsTouched();
 
     if (this.loginForm.valid) {
+      this.loading = true;
       this.authService.login(
         this.loginForm.get('email')?.value,
         this.loginForm.get('password')?.value)
         .then(() => this.router.navigateByUrl('/'))
-        .catch(console.error);
+        .catch(reason => this.openDialog(reason))
+        .finally(() => this.loading = false);
     }
   }
 
@@ -39,6 +45,14 @@ export class LoginComponent {
     formGroup.get('email')?.addValidators([Validators.required]);
     formGroup.get('password')?.addValidators([Validators.required]);
     return formGroup;
+  }
+
+  private openDialog(message: string) {
+    this.dialog.open(LoginErrorDialog, {
+      data: {
+        message: message
+      }
+    });
   }
 
   getError(fieldName: string): string[] {
@@ -53,5 +67,19 @@ export class LoginComponent {
 
   private getField(field: string): AbstractControl | null {
     return this.loginForm.get(field);
+  }
+}
+
+export interface DialogData {
+  message: string
+}
+
+@Component({
+  selector: 'login-error-dialog',
+  templateUrl: 'login-error-dialog.html'
+})
+export class LoginErrorDialog {
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
   }
 }

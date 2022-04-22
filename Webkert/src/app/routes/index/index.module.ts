@@ -6,6 +6,7 @@ import {IndexComponent} from './index.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {BuildTableComponent} from '../../components/build-table/build-table.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -23,6 +24,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatIconModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSnackBarModule
   ]
 })
 export class IndexModule {}

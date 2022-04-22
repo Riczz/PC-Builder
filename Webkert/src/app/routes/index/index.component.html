@@ -1,4 +1,4 @@
 <div style="margin: 30px auto 0 auto; width: 90%">
   <button mat-flat-button (click)="initializeData()">Refresh</button>
-  <app-build-table (routeEvent)="route($event)"></app-build-table>
+  <app-build-table (routeEvent)="route($event)" (snackbarMessage)="openSnackbar($event.msg, $event.action)"></app-build-table>
 </div>

@@ -1,9 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import {RegisterForm} from '../../../shared/interfaces/RegisterForm';
 import {emailPattern, passwordPattern} from '../../../shared/regex';
 import {AuthService} from '../../../shared/services/auth.service';
 import {Router} from '@angular/router';
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
+import {DialogData, LoginErrorDialog} from '../login/login.component';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +21,10 @@ export class RegisterComponent {
     passwordAgain: ''
   });
 
+  loading = false;
+
   constructor(
+    private dialog: MatDialog,
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router) {
@@ -29,14 +34,14 @@ export class RegisterComponent {
     this.registerForm.markAllAsTouched();
 
     if (this.registerForm.valid) {
+      this.loading = true;
       this.authService.register(
         this.registerForm.get('username')?.value,
         this.registerForm.get('email')?.value,
         this.registerForm.get('password')?.value)
         .then(() => this.router.navigateByUrl('/accounts/login'))
-        .catch(console.error);
-    } else {
-      // console.log('INVALID');
+        .catch(reason => this.openDialog(reason))
+        .finally(() => this.loading = false);
     }
   }
 
@@ -47,6 +52,14 @@ export class RegisterComponent {
     formGroup.get('password')?.addValidators([Validators.pattern(passwordPattern), Validators.maxLength(255), Validators.required]);
     formGroup.get('passwordAgain')?.addValidators([Validators.pattern(passwordPattern), Validators.maxLength(255), Validators.required]);
     return formGroup;
+  }
+
+  private openDialog(message: string) {
+    this.dialog.open(RegisterErrorDialog, {
+      data: {
+        message: message
+      }
+    });
   }
 
   getError(fieldName: string): string[] {
@@ -106,3 +119,14 @@ export class RegisterComponent {
     return this.registerForm.get(field);
   }
 }
+
+@Component({
+  selector: 'register-error-dialog',
+  templateUrl: 'register-error-dialog.html'
+})
+export class RegisterErrorDialog {
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
+  }
+}
+

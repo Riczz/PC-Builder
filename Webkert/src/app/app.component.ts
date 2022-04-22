@@ -61,4 +61,8 @@ export class AppComponent implements OnInit {
   onToggleSidenav(sidenav: MatSidenav): void {
     sidenav.toggle().catch(console.error);
   }
+
+  onCloseSidenav(sidenav: MatSidenav): void {
+    sidenav.close().catch(console.error);
+  }
 }
