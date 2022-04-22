@@ -4,7 +4,7 @@ import com.google.firebase.firestore.Exclude;
 
 import java.io.Serializable;
 
-public class Cooler extends Hardware implements Serializable {
+public final class Cooler extends Hardware implements Serializable {
 
     private boolean passive;
 

@@ -26,9 +26,7 @@ import com.riczz.pcbuilder.model.ProductItem;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class SelectComponentActivity extends AppCompatActivity implements RecyclerViewClickListener {
-
-    private static final String TAG = SelectComponentActivity.class.getName();
+public final class SelectComponentActivity extends AppCompatActivity implements RecyclerViewClickListener {
 
     private ArrayList<ProductItem> productItems;
     private RecyclerView productsRecyclerView;

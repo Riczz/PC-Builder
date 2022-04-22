@@ -8,7 +8,7 @@ import com.riczz.pcbuilder.model.BuildItem;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class BuildViewModel extends ViewModel {
+public final class BuildViewModel extends ViewModel {
 
     private final MutableLiveData<ArrayList<BuildItem>> builds = new MutableLiveData<>(new ArrayList<>());
 

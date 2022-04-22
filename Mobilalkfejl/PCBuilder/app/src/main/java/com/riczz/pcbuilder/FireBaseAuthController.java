@@ -9,7 +9,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class FireBaseAuthController extends AppCompatActivity {
+public final class FireBaseAuthController extends AppCompatActivity {
 
     private GoogleSignInOptions googleSignInOptions;
     private final FirebaseAuth firebaseAuth;

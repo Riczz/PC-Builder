@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:id="@+id/group1"
-        android:checkableBehavior="single" >
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
 
-        <item android:id="@+id/email"
-            android:title="@string/email_and_password"
-            android:icon="@drawable/ic_email" />
+        <item
+            android:id="@+id/email"
+            android:icon="@drawable/ic_email"
+            android:title="@string/email_and_password" />
 
-        <item android:id="@+id/anonymous"
-            android:title="@string/anonymous"
-            android:icon="@drawable/ic_profile" />
+        <item
+            android:id="@+id/anonymous"
+            android:icon="@drawable/ic_profile"
+            android:title="@string/anonymous" />
 
-        <item android:id="@+id/google"
-            android:title="@string/google"
-            android:icon="@drawable/ic_chrome" />
+        <item
+            android:id="@+id/google"
+            android:icon="@drawable/ic_chrome"
+            android:title="@string/google" />
 
-        <item android:id="@+id/github"
-            android:title="@string/github"
-            android:icon="@drawable/ic_github" />
+        <item
+            android:id="@+id/github"
+            android:icon="@drawable/ic_github"
+            android:title="@string/github" />
 
     </group>
 

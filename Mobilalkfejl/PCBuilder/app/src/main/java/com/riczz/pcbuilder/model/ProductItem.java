@@ -6,7 +6,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Random;
 
-public class ProductItem {
+public final class ProductItem {
 
     @Exclude
     private Task<QuerySnapshot> query;

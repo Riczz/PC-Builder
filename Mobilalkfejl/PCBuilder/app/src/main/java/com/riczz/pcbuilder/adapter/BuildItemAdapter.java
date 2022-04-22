@@ -25,7 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 
-public class BuildItemAdapter extends RecyclerView.Adapter<BuildItemAdapter.ViewHolder> {
+public final class BuildItemAdapter extends RecyclerView.Adapter<BuildItemAdapter.ViewHolder> {
 
     private ArrayList<BuildItem> builds;
     private BuildsListFragment fragment;

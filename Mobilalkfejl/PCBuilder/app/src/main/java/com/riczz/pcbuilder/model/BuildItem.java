@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class BuildItem implements Serializable {
+public final class BuildItem implements Serializable {
 
     private int totalPrice, totalWattage;
     private Timestamp modificationDate;

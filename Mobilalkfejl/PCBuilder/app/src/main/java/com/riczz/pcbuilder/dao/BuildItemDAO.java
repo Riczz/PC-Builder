@@ -7,7 +7,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.riczz.pcbuilder.model.BuildItem;
 
-public class BuildItemDAO implements IBuildItemDAO {
+public final class BuildItemDAO implements IBuildItemDAO {
     @Override
     public Task<DocumentReference> saveBuildItem(BuildItem buildItem) {
         return FirebaseFirestore.getInstance()

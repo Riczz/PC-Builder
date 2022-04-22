@@ -9,7 +9,7 @@ import org.apache.commons.text.WordUtils;
 import java.io.Serializable;
 import java.util.Locale;
 
-public class PSU extends Hardware implements Serializable {
+public final class PSU extends Hardware implements Serializable {
 
     private String modularity;
 

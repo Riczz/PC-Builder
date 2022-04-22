@@ -21,7 +21,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firestore.v1.Document;
 import com.riczz.pcbuilder.adapter.BuildItemAdapter;
 import com.riczz.pcbuilder.dao.BuildItemDAO;
 import com.riczz.pcbuilder.dao.HardwareDAO;
@@ -42,7 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class BuildsListFragment extends Fragment {
+public final class BuildsListFragment extends Fragment {
 
     private static final int MODIFY_REQ = 0x7f31ed;
 
@@ -146,11 +145,11 @@ public class BuildsListFragment extends Fragment {
 
         int hardwareId = 0;
 
-        collectionReference.add(new CPU(++hardwareId, Manufacturer.INTEL, "Intel Core i5 9400f", 140, 65, cpuImages.getResourceId(0, 0), 6, 6, CPU.Architecture.COFFEE_LAKE, CPU.Socket.LGA_1151, Memory.MemoryType.DDR_4, "2900 Mhz"));
-        collectionReference.add(new CPU(++hardwareId, Manufacturer.INTEL, "Intel Core i5-12600KF 10-Core 2.80GHz", 325, 125, cpuImages.getResourceId(1, 0), 10, 16, CPU.Architecture.KABY_LAKE, CPU.Socket.LGA_1700, Memory.MemoryType.DDR_4, "2800 Mhz"));
-        collectionReference.add(new CPU(++hardwareId, Manufacturer.INTEL, "Intel Core i7-10700F 8-Core 2.9GHz", 253, 65, cpuImages.getResourceId(2, 0), 8, 16, CPU.Architecture.COMET_LAKE, CPU.Socket.LGA_1200, Memory.MemoryType.DDR_4, "2900 Mhz"));
-        collectionReference.add(new CPU(++hardwareId, Manufacturer.AMD, "AMD Ryzen 5 5600X 6-Core 3.7GHz", 230, 65, cpuImages.getResourceId(3, 0), 6, 12, CPU.Architecture.ZEN_3, CPU.Socket.AM_4, Memory.MemoryType.DDR_4, "3700 Mhz"));
-        collectionReference.add(new CPU(++hardwareId, Manufacturer.AMD, "AMD Ryzen 7 5700X 8-Core 3.4 GHz", 312, 65, cpuImages.getResourceId(4, 0), 8, 16, CPU.Architecture.ZEN_3, CPU.Socket.AM_4, Memory.MemoryType.DDR_4, "3200 Mhz"));
+        collectionReference.add(new CPU(++hardwareId, Manufacturer.INTEL, "Intel Core i5 9400f", 53000, 65, cpuImages.getResourceId(0, 0), 6, 6, CPU.Architecture.COFFEE_LAKE, CPU.Socket.LGA_1151, Memory.MemoryType.DDR_4, "2900 Mhz"));
+        collectionReference.add(new CPU(++hardwareId, Manufacturer.INTEL, "Intel Core i5-12600KF 10-Core 2.80GHz", 107110, 125, cpuImages.getResourceId(1, 0), 10, 16, CPU.Architecture.KABY_LAKE, CPU.Socket.LGA_1700, Memory.MemoryType.DDR_4, "2800 Mhz"));
+        collectionReference.add(new CPU(++hardwareId, Manufacturer.INTEL, "Intel Core i7-10700F 8-Core 2.9GHz", 96640, 65, cpuImages.getResourceId(2, 0), 8, 16, CPU.Architecture.COMET_LAKE, CPU.Socket.LGA_1200, Memory.MemoryType.DDR_4, "2900 Mhz"));
+        collectionReference.add(new CPU(++hardwareId, Manufacturer.AMD, "AMD Ryzen 5 5600X 6-Core 3.7GHz", 91960, 65, cpuImages.getResourceId(3, 0), 6, 12, CPU.Architecture.ZEN_3, CPU.Socket.AM_4, Memory.MemoryType.DDR_4, "3700 Mhz"));
+        collectionReference.add(new CPU(++hardwareId, Manufacturer.AMD, "AMD Ryzen 7 5700X 8-Core 3.4 GHz", 129900, 65, cpuImages.getResourceId(4, 0), 8, 16, CPU.Architecture.ZEN_3, CPU.Socket.AM_4, Memory.MemoryType.DDR_4, "3200 Mhz"));
 
         collectionReference.add(new GPU(++hardwareId, "ASUS GeForce GTX 1660 SUPER 6GB GDDR6", 148599, 120, gpuImages.getResourceId(0, 0), 6, "1830 Mhz"));
         collectionReference.add(new GPU(++hardwareId, "SAPPHIRE Radeon NITRO+ RX 6700 XT 12GB GDDR6", 312160, 260, gpuImages.getResourceId(1, 0), 12, "2622 Mhz"));

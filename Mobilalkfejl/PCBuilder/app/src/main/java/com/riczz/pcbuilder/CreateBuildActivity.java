@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class CreateBuildActivity extends AppCompatActivity {
+public final class CreateBuildActivity extends AppCompatActivity {
 
     private String buildName, buildId;
     private HashMap<String, Hardware> selectedComponents;
@@ -97,7 +97,7 @@ public class CreateBuildActivity extends AppCompatActivity {
             });
 
             button.setOnLongClickListener(view -> {
-                if (((ComponentButton)view).getSelectedHardware() == null) {
+                if (((ComponentButton) view).getSelectedHardware() == null) {
                     return true;
                 }
                 new AlertDialog.Builder(this)
@@ -105,7 +105,7 @@ public class CreateBuildActivity extends AppCompatActivity {
                         .setMessage("Remove this component from build?")
                         .setPositiveButton(android.R.string.yes, (dialog, i) -> {
                             dialog.dismiss();
-                            ((ComponentButton)view).removeComponent();
+                            ((ComponentButton) view).removeComponent();
                             selectedComponents.remove(((ComponentButton) view).getHardwareType().name());
                             setupView();
                         })

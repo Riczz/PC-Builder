@@ -4,7 +4,7 @@ import com.google.firebase.firestore.Exclude;
 
 import java.io.Serializable;
 
-public class Case extends Hardware implements Serializable {
+public final class Case extends Hardware implements Serializable {
 
     private String motherboardType;
 

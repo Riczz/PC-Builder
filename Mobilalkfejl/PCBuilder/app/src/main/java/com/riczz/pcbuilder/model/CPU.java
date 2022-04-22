@@ -9,7 +9,7 @@ import org.apache.commons.text.WordUtils;
 import java.io.Serializable;
 import java.util.Locale;
 
-public class CPU extends Hardware implements Serializable {
+public final class CPU extends Hardware implements Serializable {
 
     private int numberOfCores, numberOfThreads;
     private String architecture, socket, memoryType, frequency;

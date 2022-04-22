@@ -13,9 +13,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
-public class RegisterLoginActivity extends AppCompatActivity {
+public final class RegisterLoginActivity extends AppCompatActivity {
 
-    private static final String TAG = RegisterLoginActivity.class.getName();
     private static final FirebaseAuth AUTH = FirebaseAuth.getInstance();
 
     private ViewFlipper viewFlipper;

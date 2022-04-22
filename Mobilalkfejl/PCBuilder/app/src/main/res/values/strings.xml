@@ -32,6 +32,9 @@
     <string name="password_prompt">Password</string>
     <string name="password_again_prompt">Password again</string>
     <string name="save_build">Save Build</string>
+    <string name="show_test_notification">Show test notification:</string>
+    <string name="show_notification">Show notification</string>
+    <string name="emoji">&#9996;</string>
 
     <array name="case_images">
         <item>@drawable/h500p</item>

@@ -6,7 +6,7 @@ import com.google.firebase.firestore.Exclude;
 
 import java.io.Serializable;
 
-public class Motherboard extends Hardware implements Serializable {
+public final class Motherboard extends Hardware implements Serializable {
 
     private int maxMemory;
     private String size, memoryType, socket;

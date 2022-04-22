@@ -16,7 +16,7 @@ import com.riczz.pcbuilder.model.HardwareType;
 
 import java.util.HashMap;
 
-public class ComponentButton extends MaterialCardView {
+public final class ComponentButton extends MaterialCardView {
 
     private final Context context;
     private final TextView textView;

@@ -28,7 +28,7 @@ import com.riczz.pcbuilder.model.ProductItem;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class ProductItemAdapter
+public final class ProductItemAdapter
         extends RecyclerView.Adapter<ProductItemAdapter.ViewHolder> implements Filterable {
 
     private Context context;
@@ -145,8 +145,8 @@ public class ProductItemAdapter
             this.wattage.setText(resources.getString(R.string.wattage_format, hardware.getWattage()));
             this.price.setText(
                     resources.getString(R.string.price_format,
-                    String.valueOf(hardware.getPrice()),
-                    resources.getString(R.string.currency))
+                            String.valueOf(hardware.getPrice()),
+                            resources.getString(R.string.currency))
             );
             Glide.with(context).load(hardware.getIconId()).into(banner);
 

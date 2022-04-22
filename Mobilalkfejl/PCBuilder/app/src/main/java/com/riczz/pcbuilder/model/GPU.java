@@ -4,7 +4,7 @@ import com.google.firebase.firestore.Exclude;
 
 import java.io.Serializable;
 
-public class GPU extends Hardware implements Serializable {
+public final class GPU extends Hardware implements Serializable {
 
     private int memory;
     private String frequency;

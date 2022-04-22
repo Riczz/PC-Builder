@@ -5,7 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.riczz.pcbuilder.model.HardwareType;
 
-public class HardwareDAO implements IHardwareDAO {
+public final class HardwareDAO implements IHardwareDAO {
 
     private final FirebaseFirestore firestore;
 

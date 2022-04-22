@@ -9,7 +9,7 @@ import org.apache.commons.text.WordUtils;
 import java.io.Serializable;
 import java.util.Locale;
 
-public class Memory extends Hardware implements Serializable {
+public final class Memory extends Hardware implements Serializable {
 
     private int capacity, frequency;
     private String memoryType, memoryKit, latency;
