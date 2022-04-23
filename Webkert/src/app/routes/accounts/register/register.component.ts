@@ -5,7 +5,7 @@ import {emailPattern, passwordPattern} from '../../../shared/regex';
 import {AuthService} from '../../../shared/services/auth.service';
 import {Router} from '@angular/router';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
-import {DialogData, LoginErrorDialog} from '../login/login.component';
+import {DialogData} from '../login/login.component';
 
 @Component({
   selector: 'app-register',
@@ -111,7 +111,6 @@ export class RegisterComponent {
     }
     }
 
-    // console.log('ERRORS: ' + errors);
     return errors;
   }
 

@@ -91,13 +91,19 @@ export class BuildTableComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.openDialog().afterClosed().subscribe(async name => {
-      if (!name) {
+    this.openDialog().afterClosed().subscribe(async data => {
+      console.log(data);
+      if (!data.overwrite && !data.name) {
         this.snackbarMessage.emit({msg: 'You must provide a name for your build.', action: 'Dismiss'});
         return;
       }
 
-      this.buildName = name;
+      if (data.overwrite && (!data.overwriteId || !data.name)) {
+        this.snackbarMessage.emit({msg: 'You must select a build to overwrite.', action: 'Dismiss'});
+        return;
+      }
+
+      this.buildName = data.name;
       this.loading = true;
 
       await firstValueFrom(this.dbService.getAll('components')).then(async products => {
@@ -107,7 +113,12 @@ export class BuildTableComponent implements OnInit, AfterViewInit {
           products: products as BuildTableItem[],
           modify_time: Date.now()
         };
-        await this.buildsService.createBuild(build);
+
+        if (data.overwrite && data.overwriteId) {
+          build.id = data.overwriteId;
+        }
+
+        await this.buildsService.setBuild(build);
       }).finally(() => {
         this.loading = false;
         this.routeEvent.emit('/');
@@ -117,27 +128,54 @@ export class BuildTableComponent implements OnInit, AfterViewInit {
 
   private openDialog(): MatDialogRef<SaveBuildDialog> {
     return this.saveDialog.open(SaveBuildDialog, {
-      width: '250px',
-      data: {name: this.buildName},
+      width: '400px',
+      data: {
+        name: this.buildName,
+        overwrite: false,
+        overwriteId: undefined
+      },
     });
+
   }
 }
 
-export interface BuildDialogData {
+export interface SaveBuildDialogData {
   name: string;
+  overwrite: boolean;
+  overwriteId: string | undefined;
 }
 
 @Component({
   selector: 'save-build-dialog',
   templateUrl: 'save-build-dialog.html'
 })
-export class SaveBuildDialog {
+export class SaveBuildDialog implements OnInit {
+
+  builds: Build[] = [];
+  selectedBuild: Build | undefined;
+
   constructor(
+    private authService: AuthService,
+    private buildService: BuildService,
     public dialogRef: MatDialogRef<SaveBuildDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: BuildDialogData) {
+    @Inject(MAT_DIALOG_DATA) public data: SaveBuildDialogData) {
+  }
+
+  ngOnInit() {
+    this.authService.isAuthenticated().subscribe(user => {
+      this.buildService.getBuildsForUser(user?.uid as string).subscribe(collection => {
+        this.builds = collection;
+      });
+    });
   }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  onSelectionChanged(build: Build) {
+    this.selectedBuild = build;
+    this.data.overwriteId = build.id;
+    this.data.name = build.name;
   }
 }

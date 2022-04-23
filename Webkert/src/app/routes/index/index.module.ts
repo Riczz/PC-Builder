@@ -15,6 +15,8 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {FormsModule} from '@angular/forms';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import {MatInputModule} from '@angular/material/input';
     FormsModule,
     MatDividerModule,
     MatInputModule,
+    MatSelectModule,
+    MatRadioModule,
   ]
 })
 export class IndexModule {}

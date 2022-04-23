@@ -22,6 +22,9 @@ import {MatDialogModule} from '@angular/material/dialog';
     BuildSelectorComponent,
     DeleteBuildDialog
   ],
+  exports: [
+    BuildSelectorComponent
+  ],
   imports: [
     CommonModule,
     BuildsRoutingModule,

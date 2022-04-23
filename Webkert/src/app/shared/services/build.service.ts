@@ -12,8 +12,10 @@ export class BuildService {
   constructor(private afs: AngularFirestore) {
   }
 
-  async createBuild(build: Build) {
-    build.id = this.afs.createId();
+  async setBuild(build: Build) {
+    if (!build.id) {
+      build.id = this.afs.createId();
+    }
     await this.afs.collection<Build>(this.collectionPath).doc(build.id).set(build).catch(console.error);
   }
 

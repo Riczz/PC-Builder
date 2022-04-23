@@ -2,7 +2,7 @@ import {Component, Inject, Input, OnChanges, OnInit, SimpleChanges} from '@angul
 import {Build} from '../../shared/model/Build';
 import {Router} from '@angular/router';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {BuildDialogData} from '../build-table/build-table.component';
+import {SaveBuildDialogData} from '../build-table/build-table.component';
 import {BuildService} from '../../shared/services/build.service';
 import {NgxIndexedDBService} from 'ngx-indexed-db';
 import {BuildTableItem} from '../build-table/build-table-datasource';
@@ -73,8 +73,8 @@ export class BuildViewerComponent implements OnInit, OnChanges {
 
       this.loading = true;
       this.buildService.deleteBuild(this.build?.id as string).finally(() => {
+        this.build = undefined;
         this.loading = false;
-        this.router.navigateByUrl('/').catch(console.error);
       });
     });
   }
@@ -85,6 +85,10 @@ export class BuildViewerComponent implements OnInit, OnChanges {
       data: {name: this.build?.name},
     });
   }
+}
+
+export interface BuildDialogData {
+  name: string
 }
 
 @Component({

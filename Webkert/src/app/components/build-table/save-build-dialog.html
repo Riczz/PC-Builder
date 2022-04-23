@@ -2,12 +2,29 @@
 <div mat-dialog-content>
   <h2>Create a new build</h2>
   <mat-divider></mat-divider>
+  <div>
+    <mat-radio-button checked (click)="data.overwrite = false">Create a new build with name:</mat-radio-button>
+  </div>
   <mat-form-field appearance="fill">
     <mat-label>Build name</mat-label>
     <input matInput [(ngModel)]="data.name">
   </mat-form-field>
 </div>
+<div mat-dialog-content>
+  <h2>Save existing build</h2>
+  <mat-divider></mat-divider>
+  <div>
+    <mat-radio-button (click)="data.overwrite = true">Overwrite:</mat-radio-button>
+  </div>
+  <mat-form-field appearance="fill">
+    <mat-select>
+      <mat-option *ngFor="let build of builds" [value]="build" (click)="onSelectionChanged(build)">
+        {{build.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
 <div mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="data.name" cdkFocusInitial>Ok</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
   <button mat-button (click)="onNoClick()">Cancel</button>
 </div>

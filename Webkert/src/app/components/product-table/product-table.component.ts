@@ -50,9 +50,6 @@ export class ProductTableComponent implements OnChanges {
         return;
       }
 
-      console.log('PRODUCTS');
-      console.log(values.filter(value => value.type === this.filterType));
-
       this.headers = [];
       this.headerTitles = [];
       this.dataSource = values.filter(value => value.type === this.filterType);
@@ -65,21 +62,12 @@ export class ProductTableComponent implements OnChanges {
           // @ts-ignore
           this.headerTitles.push(this.headerMap[value]);
         }
-        console.log(value);
       });
 
       this.displayedColumns = [...this.headers];
       this.displayedColumns.push('actions');
 
       this.table.dataSource = this.dataSource;
-
-      console.log('DATAS');
-      console.log(this.dataSource);
-      console.log('HEADERS');
-      console.log(this.headers);
-      console.log('HEADER TITLES');
-      console.log(this.headerTitles);
-      console.log(this.table.dataSource);
       this.table.renderRows();
     });
   }
@@ -91,9 +79,6 @@ export class ProductTableComponent implements OnChanges {
       selection: product.hardware.name,
       price: product.hardware.price,
       wattage: product.hardware.wattage,
-    }).subscribe(value => {
-      console.log('Product added.');
-      console.log(value);
-    }, error => console.error(error));
+    }).subscribe({error: error => console.error(error)});
   }
 }
