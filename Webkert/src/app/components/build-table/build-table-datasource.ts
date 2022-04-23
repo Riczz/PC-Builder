@@ -10,7 +10,6 @@ export interface BuildTableItem {
   selection?: string;
   price?: number;
   wattage?: number;
-  modify_time?: Date;
 }
 
 const DATA: BuildTableItem[] = [
@@ -61,7 +60,6 @@ export class BuildTableDataSource extends DataSource<BuildTableItem> {
     this.data[position].selection = component.selection;
     this.data[position].price = component.price;
     this.data[position].wattage = component.wattage;
-    this.data[position].modify_time = component.modify_time;
   }
 
   public removeComponent(component: string): boolean {

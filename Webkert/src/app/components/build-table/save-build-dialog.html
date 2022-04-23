@@ -1,0 +1,13 @@
+<h1 mat-dialog-title><mat-icon>save</mat-icon> Save Build</h1>
+<div mat-dialog-content>
+  <h2>Create a new build</h2>
+  <mat-divider></mat-divider>
+  <mat-form-field appearance="fill">
+    <mat-label>Build name</mat-label>
+    <input matInput [(ngModel)]="data.name">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="data.name" cdkFocusInitial>Ok</button>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+</div>

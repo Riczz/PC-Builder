@@ -13,7 +13,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatTableModule} from '@angular/material/table';
 import {AngularFireModule} from '@angular/fire/compat';
 import {getAuth, provideAuth} from '@angular/fire/auth';
-import {getFirestore, provideFirestore} from '@angular/fire/firestore';
+import {getFirestore, initializeFirestore, provideFirestore} from '@angular/fire/firestore';
 import {getStorage, provideStorage} from '@angular/fire/storage';
 import {environment} from '../environments/environment';
 import {DBConfig, NgxIndexedDBModule} from 'ngx-indexed-db';

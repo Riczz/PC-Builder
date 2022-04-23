@@ -10,6 +10,8 @@ export const environment = {
     apiKey: 'AIzaSyCC_m-NeJ-_cwH9x-383JtAqujcpUms23U',
     authDomain: 'pcbuilder-web.firebaseapp.com',
     messagingSenderId: '519186059444',
+    ignoreUndefined: true,
+    ignoreUndefinedProperties: true
   },
   production: false
 };

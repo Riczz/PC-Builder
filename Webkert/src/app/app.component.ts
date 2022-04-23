@@ -50,7 +50,13 @@ export class AppComponent implements OnInit {
       .subscribe({
         next: user => {
           this.user = user;
-        }, error: error => console.error(error)
+          localStorage.setItem('user', JSON.stringify(this.user));
+
+          this.authService.getUserByEmail(user?.email as string).subscribe(collection => {
+            this.authService.currentUsername = collection.docs[0].get('username');
+          });
+        },
+        error: () => localStorage.setItem('user', JSON.stringify('null'))
       });
   }
 

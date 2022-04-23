@@ -3,12 +3,18 @@ import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {emailPattern} from '../regex';
 import {firstValueFrom} from 'rxjs';
-import {openDatabase} from 'ngx-indexed-db/lib/ngx-indexed-db';
+import * as firebase from 'firebase/compat';
+
+// interface User extends firebase.default.User {
+//   username: string;
+// }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
+  private _currentUsername : string | null = null;
 
   constructor(
     private auth: AngularFireAuth,
@@ -73,4 +79,13 @@ export class AuthService {
   logout() {
     this.auth.signOut().catch(console.error);
   }
+
+  // get currentUsername(): string | null {
+  //   return this._currentUsername;
+  // }
+
+  set currentUsername(username: string) {
+    this._currentUsername = username;
+  }
+
 }

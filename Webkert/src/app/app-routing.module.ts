@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
+import {AuthGuard} from './shared/services/auth.guard';
 
 const routes: Routes = [
   {
@@ -20,12 +21,20 @@ const routes: Routes = [
   {
     path: 'accounts/login',
     data: {title: 'Login'},
-    loadChildren: () => import('./routes/accounts/login/login.module').then(m => m.LoginModule)
+    loadChildren: () => import('./routes/accounts/login/login.module').then(m => m.LoginModule),
+    // canActivate: [AuthGuard] //TODO
   },
   {
     path: 'builds',
     data: {title: 'My builds'},
-    loadChildren: () => import('./routes/builds/builds.module').then(m => m.BuildsModule)},
+    loadChildren: () => import('./routes/builds/builds.module').then(m => m.BuildsModule),
+    // canActivate: [AuthGuard] //TODO
+  },
+  {
+    path: '',
+    redirectTo: '/',
+    pathMatch: 'full'
+  },
   {
     path: '**',
     data: {title: '404 - Page Not Found'},

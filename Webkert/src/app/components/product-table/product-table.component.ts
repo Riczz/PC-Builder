@@ -91,7 +91,6 @@ export class ProductTableComponent implements OnChanges {
       selection: product.hardware.name,
       price: product.hardware.price,
       wattage: product.hardware.wattage,
-      modify_time: Date.now()
     }).subscribe(value => {
       console.log('Product added.');
       console.log(value);

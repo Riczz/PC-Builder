@@ -7,14 +7,20 @@ import {MatTableModule} from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {BuildTableComponent} from '../../components/build-table/build-table.component';
+import {BuildTableComponent, SaveBuildDialog} from '../../components/build-table/build-table.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import {LoadingSpinnerModule} from '../../modules/loading-spinner/loading-spinner.module';
+import {MatDialogModule} from '@angular/material/dialog';
+import {FormsModule} from '@angular/forms';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   declarations: [
     IndexComponent,
     BuildTableComponent,
+    SaveBuildDialog
   ],
   imports: [
     CommonModule,
@@ -24,7 +30,12 @@ import { MatSortModule } from '@angular/material/sort';
     MatIconModule,
     MatPaginatorModule,
     MatSortModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    LoadingSpinnerModule,
+    MatDialogModule,
+    FormsModule,
+    MatDividerModule,
+    MatInputModule,
   ]
 })
 export class IndexModule {}
