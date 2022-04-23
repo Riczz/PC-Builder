@@ -1,5 +1,5 @@
-<mat-selection-list #buildList multiple="false">
-  <mat-list-option *ngFor="let build of builds" [value]="build" (click)="onSelectionChanged(buildList)">
+<mat-selection-list multiple="false">
+  <mat-list-option *ngFor="let build of builds" [value]="build" (click)="onSelectionChanged(build)">
     {{build.name}}
   </mat-list-option>
 </mat-selection-list>

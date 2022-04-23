@@ -2,7 +2,6 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {BuildService} from '../../shared/services/build.service';
 import {AuthService} from '../../shared/services/auth.service';
 import {Build} from '../../shared/model/Build';
-import {MatSelectionList} from '@angular/material/list';
 
 @Component({
   selector: 'app-build-selector',
@@ -12,13 +11,13 @@ import {MatSelectionList} from '@angular/material/list';
 export class BuildSelectorComponent implements OnInit {
 
   builds: Build[] = [];
-  // selected: Build | null;
 
   @Output()
-    selected: EventEmitter<any> = new EventEmitter<any>();
+  selected: EventEmitter<Build> = new EventEmitter<Build>();
 
-  constructor(private buildService : BuildService,
-    private authService : AuthService) { }
+  constructor(private buildService: BuildService,
+    private authService: AuthService) {
+  }
 
   ngOnInit(): void {
     this.authService.isAuthenticated().subscribe(user => {
@@ -26,8 +25,7 @@ export class BuildSelectorComponent implements OnInit {
     });
   }
 
-  onSelectionChanged(buildList: MatSelectionList): void {
-    console.log(buildList.selectedOptions.selected.map(item => item.value) as unknown as Build);
-    this.selected.emit(buildList.selectedOptions.selected.map(item => item.value) as unknown as Build);
+  onSelectionChanged(build: Build): void {
+    this.selected.emit(build);
   }
 }

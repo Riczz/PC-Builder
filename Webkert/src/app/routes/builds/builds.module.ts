@@ -4,19 +4,23 @@ import { CommonModule } from '@angular/common';
 import { BuildsRoutingModule } from './builds-routing.module';
 import { BuildsComponent } from './builds.component';
 import {IndexModule} from '../index/index.module';
-import { BuildViewerComponent } from '../../components/build-viewer/build-viewer.component';
+import {BuildViewerComponent, DeleteBuildDialog} from '../../components/build-viewer/build-viewer.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import { BuildSelectorComponent } from '../../components/build-selector/build-selector.component';
 import {MatListModule} from '@angular/material/list';
 import {FormsModule} from '@angular/forms';
+import {LoadingSpinnerModule} from '../../modules/loading-spinner/loading-spinner.module';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
   declarations: [
     BuildsComponent,
     BuildViewerComponent,
-    BuildSelectorComponent
+    BuildSelectorComponent,
+    DeleteBuildDialog
   ],
   imports: [
     CommonModule,
@@ -25,7 +29,10 @@ import {FormsModule} from '@angular/forms';
     MatCardModule,
     MatButtonModule,
     MatListModule,
-    FormsModule
+    FormsModule,
+    LoadingSpinnerModule,
+    MatIconModule,
+    MatDialogModule
   ]
 })
 export class BuildsModule { }

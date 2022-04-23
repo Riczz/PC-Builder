@@ -26,8 +26,8 @@ export class BuildService {
       .collection<Build>(this.collectionPath, ref => ref
         .where('user', '==', userId).orderBy('modify_time')).valueChanges();
   }
-  //
-  // modifyBuild(userId: string, id: string, build: Build) {
-  //   return this.getBuildsForUser(userId).doc(id).set(build).catch(console.error);
-  // }
+
+  deleteBuild(id: string) {
+    return this.afs.collection(this.collectionPath).doc(id).delete().catch(console.error);
+  }
 }

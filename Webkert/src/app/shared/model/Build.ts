@@ -1,10 +1,9 @@
-import {Product} from './Product';
-import {Hardware} from './Hardware';
+import {BuildTableItem} from '../../components/build-table/build-table-datasource';
 
 export interface Build {
   id?: string;
   user?: string;
   name: string;
-  products: Product<Hardware>[];
+  products: BuildTableItem[];
   modify_time: number;
 }

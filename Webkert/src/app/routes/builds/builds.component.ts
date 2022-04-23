@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Build} from '../../shared/model/Build';
 
 @Component({
@@ -10,14 +10,10 @@ export class BuildsComponent implements OnInit {
 
   build: Build | undefined;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
 
-  setSelection($event: Build) {
-    this.build = $event;
-    console.log(this.build);
-
-  }
 }

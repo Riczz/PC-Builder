@@ -11,8 +11,6 @@ import {BuildService} from '../../shared/services/build.service';
 import {firstValueFrom} from 'rxjs';
 import {Build} from '../../shared/model/Build';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {Product} from '../../shared/model/Product';
-import {Hardware} from '../../shared/model/Hardware';
 
 @Component({
   selector: 'app-build-table',
@@ -106,7 +104,7 @@ export class BuildTableComponent implements OnInit, AfterViewInit {
         const build: Build = {
           user: this.user?.uid,
           name: this.buildName,
-          products: products as Product<Hardware>[],
+          products: products as BuildTableItem[],
           modify_time: Date.now()
         };
         await this.buildsService.createBuild(build);
@@ -125,7 +123,7 @@ export class BuildTableComponent implements OnInit, AfterViewInit {
   }
 }
 
-export interface SaveBuildDialogData {
+export interface BuildDialogData {
   name: string;
 }
 
@@ -136,7 +134,7 @@ export interface SaveBuildDialogData {
 export class SaveBuildDialog {
   constructor(
     public dialogRef: MatDialogRef<SaveBuildDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: SaveBuildDialogData) {
+    @Inject(MAT_DIALOG_DATA) public data: BuildDialogData) {
   }
 
   onNoClick(): void {

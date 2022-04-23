@@ -62,6 +62,7 @@ export class AppComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
+    this.router.navigateByUrl('/').catch(console.error);
   }
 
   onToggleSidenav(sidenav: MatSidenav): void {
