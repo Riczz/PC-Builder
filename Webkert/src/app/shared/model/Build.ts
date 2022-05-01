@@ -1,4 +1,4 @@
-import {BuildTableItem} from '../../components/build-table/build-table-datasource';
+import {BuildTableItem} from '../../routes/index/build-table/build-table-datasource';
 
 export interface Build {
   id?: string;

@@ -1,0 +1,15 @@
+<app-loading-spinner *ngIf="loading"></app-loading-spinner>
+<mat-card *ngIf="build">
+  <div id="top">
+  <mat-card-title>{{build.name}}</mat-card-title>
+  <mat-card-subtitle>Build overview</mat-card-subtitle>
+  <p *ngFor="let product of build.products">{{product.selection}}</p>
+  <mat-divider></mat-divider>
+  </div>
+    <p id="total_wattage">Total wattage: {{totalWattage}} W</p>
+    <p id="total_price">Total Price: {{totalPrice}} HUF</p>
+    <mat-card-actions align="end">
+      <button mat-button (click)="edit()">EDIT</button>
+      <button mat-raised-button color="warn" (click)="delete()">DELETE</button>
+    </mat-card-actions>
+</mat-card>

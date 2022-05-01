@@ -1,2 +1,8 @@
-<app-build-selector (selected)="build = $event"></app-build-selector>
-<app-build-viewer [build]="build"></app-build-viewer>
+<div id="container">
+  <div class="split left">
+    <app-build-selector (selected)="build = $event"></app-build-selector>
+  </div>
+  <div class="split right">
+    <app-build-viewer [build]="build"></app-build-viewer>
+  </div>
+</div>

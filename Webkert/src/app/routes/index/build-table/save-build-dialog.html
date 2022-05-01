@@ -1,9 +1,15 @@
-<h1 mat-dialog-title><mat-icon>save</mat-icon> Save Build</h1>
+<h1 mat-dialog-title>
+  <mat-icon>save</mat-icon>
+  Save Build
+</h1>
 <div mat-dialog-content>
-  <h2>Create a new build</h2>
-  <mat-divider></mat-divider>
+  <div class="header">
+    <h2>Create a new build</h2>
+    <mat-divider></mat-divider>
+  </div>
   <div>
-    <mat-radio-button checked (click)="data.overwrite = false">Create a new build with name:</mat-radio-button>
+    <mat-radio-button checked name="overwrite" (click)="changeMethod(false)">Create a new build with name:
+    </mat-radio-button>
   </div>
   <mat-form-field appearance="fill">
     <mat-label>Build name</mat-label>
@@ -11,13 +17,15 @@
   </mat-form-field>
 </div>
 <div mat-dialog-content>
-  <h2>Save existing build</h2>
-  <mat-divider></mat-divider>
+  <div class="header">
+    <h2>Overwrite existing build</h2>
+    <mat-divider></mat-divider>
+  </div>
   <div>
-    <mat-radio-button (click)="data.overwrite = true">Overwrite:</mat-radio-button>
+    <mat-radio-button #overwriteButton name="overwrite" (click)="changeMethod(true)">Overwrite:</mat-radio-button>
   </div>
   <mat-form-field appearance="fill">
-    <mat-select>
+    <mat-select placeholder="Select build">
       <mat-option *ngFor="let build of builds" [value]="build" (click)="onSelectionChanged(build)">
         {{build.name}}
       </mat-option>

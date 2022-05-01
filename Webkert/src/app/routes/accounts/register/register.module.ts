@@ -12,6 +12,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {LoadingSpinnerModule} from '../../../modules/loading-spinner/loading-spinner.module';
 import {MatDialogModule} from '@angular/material/dialog';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     ReactiveFormsModule,
     MatAutocompleteModule,
     LoadingSpinnerModule,
-    MatDialogModule
+    MatDialogModule,
+    FlexLayoutModule
   ]
 })
 export class RegisterModule { }

@@ -7,7 +7,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {BuildTableComponent, SaveBuildDialog} from '../../components/build-table/build-table.component';
+import {BuildTableComponent, SaveBuildDialog} from './build-table/build-table.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import {LoadingSpinnerModule} from '../../modules/loading-spinner/loading-spinner.module';

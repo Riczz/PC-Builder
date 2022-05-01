@@ -11,6 +11,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {LoadingSpinnerModule} from '../../../modules/loading-spinner/loading-spinner.module';
 import {MatDialogModule} from '@angular/material/dialog';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 
 @NgModule({
@@ -18,17 +19,18 @@ import {MatDialogModule} from '@angular/material/dialog';
     LoginComponent,
     LoginErrorDialog
   ],
-  imports: [
-    CommonModule,
-    LoginRoutingModule,
-    MatDividerModule,
-    MatCardModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatInputModule,
-    LoadingSpinnerModule,
-    MatDialogModule,
-  ]
+	imports: [
+		CommonModule,
+		LoginRoutingModule,
+		MatDividerModule,
+		MatCardModule,
+		MatFormFieldModule,
+		ReactiveFormsModule,
+		MatButtonModule,
+		MatInputModule,
+		LoadingSpinnerModule,
+		MatDialogModule,
+		FlexLayoutModule,
+	]
 })
 export class LoginModule { }

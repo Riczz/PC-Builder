@@ -1,16 +1,16 @@
 import {Component, Inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {Build} from '../../shared/model/Build';
+import {Build} from '../../../shared/model/Build';
 import {Router} from '@angular/router';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {SaveBuildDialogData} from '../build-table/build-table.component';
-import {BuildService} from '../../shared/services/build.service';
+import {SaveBuildDialogData} from '../../index/build-table/build-table.component';
+import {BuildService} from '../../../shared/services/build.service';
 import {NgxIndexedDBService} from 'ngx-indexed-db';
-import {BuildTableItem} from '../build-table/build-table-datasource';
+import {BuildTableItem} from '../../index/build-table/build-table-datasource';
 
 @Component({
   selector: 'app-build-viewer',
   templateUrl: './build-viewer.component.html',
-  styleUrls: ['./build-viewer.component.css']
+  styleUrls: ['./build-viewer.component.scss']
 })
 export class BuildViewerComponent implements OnInit, OnChanges {
 
@@ -59,10 +59,11 @@ export class BuildViewerComponent implements OnInit, OnChanges {
         .subscribe({
           complete: () => {
             this.loading = false;
-            this.router.navigateByUrl('/').catch(console.error);
+            window.location.href = '/';
+            // this.router.navigateByUrl('/').catch(console.error);
           }
         });
-    });
+    }, () => console.error);
   }
 
   delete() {
@@ -88,7 +89,7 @@ export class BuildViewerComponent implements OnInit, OnChanges {
 }
 
 export interface BuildDialogData {
-  name: string
+  name: string;
 }
 
 @Component({

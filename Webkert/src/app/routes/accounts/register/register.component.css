@@ -1,19 +1,35 @@
 mat-card {
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+}
+mat-card mat-divider {
+  margin-bottom: 10px;
+}
+
+.form {
   margin: 0 auto;
+  width: 100%;
 }
-
-mat-form-field {
+.form .mat-form-field {
   margin: 0 auto;
-  width: 80%;
+  width: inherit;
 }
-
-form > button {
-  display: block;
-  width: 80%;
-}
-
-button .mat-stroked-button {
+.form .mat-form-field .mat-input-element {
   color: white;
+}
+.form .mat-form-field.mat-focused .mat-input-element {
+  color: deeppink;
+}
+.form .mat-raised-button {
+  width: inherit;
+  display: block;
+}
+.form .mat-stroked-button {
+  margin-top: 30px;
+  width: inherit;
+  display: block;
 }
 
 /*# sourceMappingURL=register.component.css.map */

@@ -1,28 +1,37 @@
-import {AfterViewInit, Component, EventEmitter, Inject, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component, ElementRef,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {BuildTableDataSource, BuildTableItem} from './build-table-datasource';
-import {RouteFormatPipe} from '../../shared/pipes/route-format.pipe';
+import {RouteFormatPipe} from '../../../shared/pipes/route-format.pipe';
 import {NgxIndexedDBService} from 'ngx-indexed-db';
-import {AuthService} from '../../shared/services/auth.service';
+import {AuthService} from '../../../shared/services/auth.service';
 import * as firebase from 'firebase/compat';
-import {BuildService} from '../../shared/services/build.service';
-import {firstValueFrom} from 'rxjs';
-import {Build} from '../../shared/model/Build';
+import {BuildService} from '../../../shared/services/build.service';
+import {firstValueFrom, fromEvent, takeUntil} from 'rxjs';
+import {Build} from '../../../shared/model/Build';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {MatRadioButton, MatRadioChange} from '@angular/material/radio';
 
 @Component({
   selector: 'app-build-table',
   templateUrl: './build-table.component.html',
-  styleUrls: ['./build-table.component.css']
+  styleUrls: ['./build-table.component.scss']
 })
 export class BuildTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<BuildTableItem>;
 
-  buildName = '';
   dataSource: BuildTableDataSource;
   displayedColumns = ['component', 'selection', 'price', 'wattage', 'actions'];
 
@@ -50,21 +59,13 @@ export class BuildTableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
 
     this.dbService.getAll<BuildTableItem>('components').subscribe(components => {
       for (const component of components) {
-        this.dataSource.setComponent(component);
+        this.dataSource.setItem(component);
       }
-      this.refresh();
     });
-
-  }
-
-  refresh(): void {
-    this.paginator._changePageSize(this.paginator.pageSize);
   }
 
   addNewComponent(component: string): void {
@@ -72,9 +73,9 @@ export class BuildTableComponent implements OnInit, AfterViewInit {
   }
 
   removeComponent(buildTableItem: BuildTableItem): void {
-    if (this.dataSource.removeComponent(buildTableItem.component)) {
-      this.dbService.delete('components', buildTableItem.selection as string).subscribe(value => {
-        this.refresh();
+    if (this.dataSource.removeItem(buildTableItem.component)) {
+      this.dbService.delete('components', buildTableItem.selection as string).subscribe(() => {
+        this.table.renderRows();
       });
     }
   }
@@ -92,8 +93,11 @@ export class BuildTableComponent implements OnInit, AfterViewInit {
     }
 
     this.openDialog().afterClosed().subscribe(async data => {
-      console.log(data);
-      if (!data.overwrite && !data.name) {
+      if (!data) {
+        return;
+      }
+
+      if (!data.overwrite && (!data.name || data.name.trim() === '')) {
         this.snackbarMessage.emit({msg: 'You must provide a name for your build.', action: 'Dismiss'});
         return;
       }
@@ -103,13 +107,12 @@ export class BuildTableComponent implements OnInit, AfterViewInit {
         return;
       }
 
-      this.buildName = data.name;
       this.loading = true;
 
       await firstValueFrom(this.dbService.getAll('components')).then(async products => {
         const build: Build = {
           user: this.user?.uid,
-          name: this.buildName,
+          name: data.name,
           products: products as BuildTableItem[],
           modify_time: Date.now()
         };
@@ -120,8 +123,9 @@ export class BuildTableComponent implements OnInit, AfterViewInit {
 
         await this.buildsService.setBuild(build);
       }).finally(() => {
+        this.clearTable();
         this.loading = false;
-        this.routeEvent.emit('/');
+        window.location.reload();
       });
     });
   }
@@ -130,29 +134,37 @@ export class BuildTableComponent implements OnInit, AfterViewInit {
     return this.saveDialog.open(SaveBuildDialog, {
       width: '400px',
       data: {
-        name: this.buildName,
+        name: '',
         overwrite: false,
         overwriteId: undefined
       },
     });
+  }
 
+  async clearTable() {
+    this.dbService.clear('components').subscribe(value => {
+      this.dataSource.clear();
+      this.table.renderRows();
+    });
   }
 }
 
 export interface SaveBuildDialogData {
   name: string;
-  overwrite: boolean;
+  overwrite: boolean | undefined;
   overwriteId: string | undefined;
 }
 
 @Component({
   selector: 'save-build-dialog',
-  templateUrl: 'save-build-dialog.html'
+  templateUrl: 'save-build-dialog.html',
+  styleUrls: ['save-build-dialog.scss']
 })
 export class SaveBuildDialog implements OnInit {
 
   builds: Build[] = [];
   selectedBuild: Build | undefined;
+  @ViewChild('overwriteButton') overwriteButton: MatRadioButton | undefined;
 
   constructor(
     private authService: AuthService,
@@ -169,13 +181,20 @@ export class SaveBuildDialog implements OnInit {
     });
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
   onSelectionChanged(build: Build) {
     this.selectedBuild = build;
     this.data.overwriteId = build.id;
     this.data.name = build.name;
+
+    this.overwriteButton?._inputElement.nativeElement.click();
+    this.changeMethod(true);
+  }
+
+  changeMethod(overwrite: boolean): void {
+    this.data.overwrite = overwrite ? true : undefined;
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

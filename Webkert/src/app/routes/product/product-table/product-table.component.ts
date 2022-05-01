@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
-import {Product} from '../../shared/model/Product';
-import {Hardware} from '../../shared/model/Hardware';
+import {Product} from '../../../shared/model/Product';
+import {Hardware} from '../../../shared/model/Hardware';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {MatTable} from '@angular/material/table';
 import {NgxIndexedDBService} from 'ngx-indexed-db';
@@ -8,7 +8,7 @@ import {NgxIndexedDBService} from 'ngx-indexed-db';
 @Component({
   selector: 'app-product-table',
   templateUrl: './product-table.component.html',
-  styleUrls: ['./product-table.component.css']
+  styleUrls: ['./product-table.component.scss']
 })
 export class ProductTableComponent implements OnChanges {
 

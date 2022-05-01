@@ -1,12 +1,8 @@
 @use '@angular/material' as mat;
 
-.spacer {
-  flex: 1 1 auto;
-}
-
-footer {
-  position: fixed;
-  bottom: 0
+#title {
+  font-size: xxx-large;
+  margin: auto;
 }
 
 #nav_bottom {
@@ -14,12 +10,14 @@ footer {
   height: 100px;
 }
 
-#title {
-  font-size: xxx-large;
-  margin: auto;
+#menu-button {
+  margin-right: 10px;
+}
+
+.spacer {
+  flex: 1 1 auto;
 }
 
 mat-sidenav {
   width: 25%;
 }
-

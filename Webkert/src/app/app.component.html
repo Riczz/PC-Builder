@@ -5,7 +5,7 @@
   <mat-sidenav-content>
     <mat-toolbar color="primary">
       <mat-toolbar-row id="nav_top">
-        <button mat-icon-button (click)="onToggleSidenav(sidenav)">
+        <button mat-icon-button id="menu-button" (click)="onToggleSidenav(sidenav)">
           <mat-icon>menu</mat-icon>
         </button>
         <a [routerLink]="'/'"><span>PC Builder</span></a>

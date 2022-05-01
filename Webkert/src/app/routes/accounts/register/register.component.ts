@@ -95,7 +95,6 @@ export class RegisterComponent {
       }
       break;
     }
-      //TODO
     case 'passwordAgain': {
       if (field.hasError('maxlength')) {
         errors.push(`Too many characters for password. Maximum length: ${field.getError('maxlength').requiredLength}`);

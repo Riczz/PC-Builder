@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from './shared/services/auth.guard';
+import {GuestGuard} from './shared/services/guest.guard';
 
 const routes: Routes = [
   {
@@ -22,13 +23,13 @@ const routes: Routes = [
     path: 'accounts/login',
     data: {title: 'Login'},
     loadChildren: () => import('./routes/accounts/login/login.module').then(m => m.LoginModule),
-    // canActivate: [AuthGuard] //TODO
+    canActivate: [GuestGuard]
   },
   {
     path: 'builds',
     data: {title: 'My builds'},
     loadChildren: () => import('./routes/builds/builds.module').then(m => m.BuildsModule),
-    // canActivate: [AuthGuard] //TODO
+    canActivate: [AuthGuard]
   },
   {
     path: '',
