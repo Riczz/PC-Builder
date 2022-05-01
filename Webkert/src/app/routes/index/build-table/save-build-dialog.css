@@ -1,0 +1,11 @@
+.mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mat-dialog-content .header * {
+  margin-bottom: 0;
+}
+
+/*# sourceMappingURL=save-build-dialog.css.map */
