@@ -1,12 +1,14 @@
 mat-card {
-  margin-top: 20px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 20px auto;
   width: 90%;
 
   mat-divider {
     margin-bottom: 10px;
   }
+}
+
+#register {
+  margin-top: 20px;
 }
 
 .form {

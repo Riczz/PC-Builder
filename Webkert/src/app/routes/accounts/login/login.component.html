@@ -9,7 +9,7 @@
       <form [formGroup]="loginForm" (ngSubmit)="submitForm()">
         <div class="form">
           <mat-form-field appearance="outline">
-            <input matInput placeholder="E-mail address" formControlName="email" required/>
+            <input matInput placeholder="Username or E-mail address" formControlName="email" required/>
             <mat-error *ngFor="let message of getError('email')">{{message}}</mat-error>
           </mat-form-field>
           <mat-form-field appearance="outline">
