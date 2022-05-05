@@ -1,6 +1,6 @@
 # PC-Builder
 
-## Kedves javító kollega!
+## Kedves javító Kollega!
 
 A projekt egy számítógép konfiguráció összeállító alkalmazást valósít meg.  
 Az alábbiakban részletezem a program működését a könnyebb használat érdekében.
@@ -29,8 +29,8 @@ A mentett buildeket a főoldalon van lehetőség módosítani, vagy törölni.
 - Az adatbázisban nem tárolódnak külön minden felhasználóhoz az adatok.  
   Egy nagy kollekció van, ezen történik minden módosítás.
   
-- A GitHub-os bejelentkezés nem feltétlen működik minden esetben, ajánlott a Google, vagy a többi másik bejelentkezési  
-  módot használni. ❌
+- A GitHub-os bejelentkezés nem feltétlen működik minden esetben,  
+  ajánlott a Google, vagy a többi másik bejelentkezési módot használni. ❌
   
 ---
   
