@@ -13,7 +13,7 @@ export class BuildSelectorComponent implements OnInit {
   builds: Build[] = [];
 
   @Output()
-  selected: EventEmitter<Build> = new EventEmitter<Build>();
+    selected: EventEmitter<Build> = new EventEmitter<Build>();
 
   constructor(private buildService: BuildService,
     private authService: AuthService) {

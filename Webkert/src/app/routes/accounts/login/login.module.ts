@@ -19,18 +19,18 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     LoginComponent,
     LoginErrorDialog
   ],
-	imports: [
-		CommonModule,
-		LoginRoutingModule,
-		MatDividerModule,
-		MatCardModule,
-		MatFormFieldModule,
-		ReactiveFormsModule,
-		MatButtonModule,
-		MatInputModule,
-		LoadingSpinnerModule,
-		MatDialogModule,
-		FlexLayoutModule,
-	]
+  imports: [
+    CommonModule,
+    LoginRoutingModule,
+    MatDividerModule,
+    MatCardModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatInputModule,
+    LoadingSpinnerModule,
+    MatDialogModule,
+    FlexLayoutModule,
+  ]
 })
 export class LoginModule { }

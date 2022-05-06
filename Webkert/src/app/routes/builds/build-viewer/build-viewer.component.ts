@@ -1,8 +1,7 @@
-import {Component, Inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Inject, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {Build} from '../../../shared/model/Build';
 import {Router} from '@angular/router';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {SaveBuildDialogData} from '../../index/build-table/build-table.component';
 import {BuildService} from '../../../shared/services/build.service';
 import {NgxIndexedDBService} from 'ngx-indexed-db';
 import {BuildTableItem} from '../../index/build-table/build-table-datasource';
@@ -12,12 +11,12 @@ import {BuildTableItem} from '../../index/build-table/build-table-datasource';
   templateUrl: './build-viewer.component.html',
   styleUrls: ['./build-viewer.component.scss']
 })
-export class BuildViewerComponent implements OnInit, OnChanges {
+export class BuildViewerComponent implements OnChanges {
 
   loading = false;
 
   @Input()
-  build: Build | undefined;
+    build: Build | undefined;
 
   totalWattage = 0;
   totalPrice = 0;
@@ -27,9 +26,6 @@ export class BuildViewerComponent implements OnInit, OnChanges {
     private deleteDialog: MatDialog,
     private buildService: BuildService,
     private dbService: NgxIndexedDBService) {
-  }
-
-  ngOnInit(): void {
   }
 
   ngOnChanges(changes: SimpleChanges) {

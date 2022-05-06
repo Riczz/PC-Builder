@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Build} from '../../shared/model/Build';
 
 @Component({
@@ -6,14 +6,8 @@ import {Build} from '../../shared/model/Build';
   templateUrl: './builds.component.html',
   styleUrls: ['./builds.component.scss']
 })
-export class BuildsComponent implements OnInit {
+export class BuildsComponent {
 
   build: Build | undefined;
-
-  constructor() {
-  }
-
-  ngOnInit(): void {
-  }
 
 }

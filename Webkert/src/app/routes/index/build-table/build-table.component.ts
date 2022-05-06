@@ -1,6 +1,6 @@
 import {
   AfterViewInit,
-  Component, ElementRef,
+  Component,
   EventEmitter,
   Inject,
   Input,
@@ -17,10 +17,10 @@ import {NgxIndexedDBService} from 'ngx-indexed-db';
 import {AuthService} from '../../../shared/services/auth.service';
 import * as firebase from 'firebase/compat';
 import {BuildService} from '../../../shared/services/build.service';
-import {firstValueFrom, fromEvent, takeUntil} from 'rxjs';
+import {firstValueFrom} from 'rxjs';
 import {Build} from '../../../shared/model/Build';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {MatRadioButton, MatRadioChange} from '@angular/material/radio';
+import {MatRadioButton} from '@angular/material/radio';
 
 @Component({
   selector: 'app-build-table',
@@ -142,7 +142,7 @@ export class BuildTableComponent implements OnInit, AfterViewInit {
   }
 
   async clearTable() {
-    this.dbService.clear('components').subscribe(value => {
+    this.dbService.clear('components').subscribe(() => {
       this.dataSource.clear();
       this.table.renderRows();
     });
