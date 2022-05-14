@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "pcbuilder-web": {
+      "hosting": {
+        "PCBuilder": [
+          "pcbuilder-web"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "pcbuilder-web"
+  }
+}

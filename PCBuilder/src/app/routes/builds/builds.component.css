@@ -1,0 +1,33 @@
+#container {
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 25px;
+  display: flex;
+  gap: 50px;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+#placeholder {
+  margin: 25px auto;
+  font-size: large;
+  text-align: center;
+}
+#placeholder a {
+  text-decoration: none;
+  color: orange;
+}
+
+.left {
+  flex-grow: 0;
+  min-width: 200px;
+  border-radius: 3px;
+  background-color: rgba(151, 19, 71, 0.5);
+}
+
+.right {
+  flex-grow: 3;
+}
+
+/*# sourceMappingURL=builds.component.css.map */

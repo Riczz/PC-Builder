@@ -1,0 +1,18 @@
+<ng-container *ngIf="builds.length === 0">
+  <div id="placeholder">
+    <p>You haven't made any builds yet.</p>
+    <p>To make one, please click <a href="/">here</a>.</p>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="builds.length > 0">
+  <div id="container">
+    <div class="left">
+      <app-build-selector [builds]="builds" *ngIf="builds.length > 0"
+                          (selected)="selectedBuild = $event"></app-build-selector>
+    </div>
+    <div class="right">
+      <app-build-viewer [build]="selectedBuild"></app-build-viewer>
+    </div>
+  </div>
+</ng-container>
