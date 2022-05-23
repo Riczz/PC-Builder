@@ -2,7 +2,7 @@
   "targets": {
     "pcbuilder-web": {
       "hosting": {
-        "PCBuilder": [
+        "pcbuilder": [
           "pcbuilder-web"
         ]
       }
