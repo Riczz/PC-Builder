@@ -31,8 +31,9 @@ export class AppComponent implements OnInit {
           let route: ActivatedRoute = this.router.routerState.root;
           let routeTitle = '';
 
-          while (route?.firstChild) {
+          if (route?.firstChild) {
             route = route.firstChild;
+            console.log(route.firstChild);
           }
 
           if (route.snapshot.data['title']) {
@@ -46,6 +47,7 @@ export class AppComponent implements OnInit {
           this.title = `${title}`;
         }
       });
+
     this.authService.isAuthenticated()
       .subscribe({
         next: user => {
